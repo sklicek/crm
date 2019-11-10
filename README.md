@@ -1,6 +1,5 @@
 # crm
-Einfaches CRM für Kleinunternehmer/Freiberufler in PHP und MySQL 
-Responsive (sich auf Displaygrösse anpassend) durch die Verwendung des Frameworks jQuery-mobile
+Einfaches CRM für Kleinunternehmer/Freiberufler in PHP und MySQL. Responsive Design (sich auf Displaygrösse anpassend) durch die Verwendung des Frameworks jQuery-mobile.
 
 Funktionen:
 - Verwalten der Kunden

@@ -8,3 +8,5 @@ Funktionen:
 - Verwalten der Ein- und Ausgangsrechnungen
 - Dashboard
 - Diverse Auswertungen (Ein-/Ausgaben)
+
+Die Datei include/config.inc.php muss angepasst werden mit den Zugangsdaten für MySQL.

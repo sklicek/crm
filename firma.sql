@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 05. Nov 2019 um 20:13
+-- Erstellungszeit: 11. Nov 2019 um 19:14
 -- Server-Version: 8.0.18
 -- PHP-Version: 7.2.24-0ubuntu0.18.04.1
 
@@ -395,6 +395,20 @@ CREATE TABLE `krechnungen_eingang` (
 -- --------------------------------------------------------
 
 --
+-- Stellvertreter-Struktur des Views `krechnungen_eingang_kontonr`
+-- (Siehe unten für die tatsächliche Ansicht)
+--
+CREATE TABLE `krechnungen_eingang_kontonr` (
+`bezeichnung` varchar(250)
+,`gesamt_bruttowert` decimal(32,2)
+,`id_konto` int(11)
+,`konto_nr` int(11)
+,`rechnung_jahr` int(5)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Stellvertreter-Struktur des Views `krechnungen_eingang_offen`
 -- (Siehe unten für die tatsächliche Ansicht)
 --
@@ -491,6 +505,15 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- --------------------------------------------------------
 
 --
+-- Struktur des Views `krechnungen_eingang_kontonr`
+--
+DROP TABLE IF EXISTS `krechnungen_eingang_kontonr`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `krechnungen_eingang_kontonr`  AS  select `rechnungen_eingang`.`id_konto` AS `id_konto`,`kontenrahmen`.`konto_nr` AS `konto_nr`,`kontenrahmen`.`bezeichnung` AS `bezeichnung`,sum(`rechnungen_eingang`.`bruttowert`) AS `gesamt_bruttowert`,year(`rechnungen_eingang`.`rechnung_datum`) AS `rechnung_jahr` from (`rechnungen_eingang` left join `kontenrahmen` on((`rechnungen_eingang`.`id_konto` = `kontenrahmen`.`id_konto`))) group by `rechnungen_eingang`.`id_konto`,year(`rechnungen_eingang`.`rechnung_datum`) ;
+
+-- --------------------------------------------------------
+
+--
 -- Struktur des Views `krechnungen_eingang_offen`
 --
 DROP TABLE IF EXISTS `krechnungen_eingang_offen`;
@@ -548,7 +571,7 @@ ALTER TABLE `rechnungen_eingang`
 -- AUTO_INCREMENT für Tabelle `kontenrahmen`
 --
 ALTER TABLE `kontenrahmen`
-  MODIFY `id_konto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id_konto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT für Tabelle `kunden`

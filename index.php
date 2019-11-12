@@ -78,23 +78,6 @@ if ($stmt2 = $mysqli -> prepare("SELECT firma, rechnung_datum, bruttowert FROM k
 //Ergebnis
 $ergebnis=$gesamt_einnahmen-$gesamt_ausgaben;  
 
-//Ausgaben nach Konten gruppiert
-$gesamt_ausgaben_konten=0;
-$arr_konten=array();
-$a=0;
-if ($stmt2 = $mysqli -> prepare("SELECT konto_nr, bezeichnung, gesamt_bruttowert FROM krechnungen_eingang_kontonr WHERE rechnung_jahr = ? ORDER BY konto_nr ASC")) {
-	  $stmt2 -> bind_param('i',$jr);
-	  $stmt2 -> execute();
-	  $stmt2 -> bind_result($konto_nr, $bez, $brutto);
-	  while ($stmt2 -> fetch()){
-		  $gesamt_ausgaben_konten+=$brutto;
-		  $arr_konten[$a][0]=$konto_nr;
-		  $arr_konten[$a][1]=$bez;
-		  $arr_konten[$a][2]=$brutto;
-		  $a++;
-     }
-}
-
 $mysqli -> close();
 ?>
 <table data-role="table" class="ui-responsive table-stroke">
@@ -133,32 +116,6 @@ $mysqli -> close();
 <tr>
 <td><b>= Ergebnis</b></td>
 <td><b><?=number_format($ergebnis,2);?></b></td>
-</tr>
-</tbody>
-</table>
-<h2>Ausgaben nach Konten <?=$jr;?></h2>
-<table data-role="table" class="ui-responsive table-stroke">
-<thead>
-<th>Konto-Nr</th>
-<th>Bezeichnung</th>
-<th>Brutto (Euro)</th>
-</thead>
-<tbody>
-<?php
-for($i=0;$i<count($arr_konten);$i++) {
-	?>
-	<tr>
-	<td><?=$arr_konten[$i][0];?></td>
-	<td><?=$arr_konten[$i][1];?></td>
-	<td><?=$arr_konten[$i][2];?></td>
-	</tr>
-	<?php
-}
-?>
-<tr>
-<td><b>Gesamt-Ausgaben</b></td>
-<td></td>
-<td><b><?=number_format($gesamt_ausgaben_konten,2);?></b></td>
 </tr>
 </tbody>
 </table>

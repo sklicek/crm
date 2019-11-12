@@ -40,10 +40,11 @@ if (isset($_POST['submit'])){
     $kunde_id=htmlspecialchars($_POST['kunde']);
     $brutto=htmlspecialchars($_POST['brutto']);
     $dat_bez=htmlspecialchars($_POST['dat_bez']);
-    
+    $kt_id=htmlspecialchars($_POST['konto']);
+      
     if ($action=="n"){
-        if ($stmt2 = $mysqli -> prepare("INSERT INTO rechnungen (rechnung_nr, rechnung_datum, kunde_id, leistung_datum, bruttowert,datum_bezahlt) VALUES (?,?,?,?,?,?)")) {
-            $stmt2 -> bind_param("ssisds",$nr,$dat,$kunde_id,$dat_leist,$brutto,$dat_bez);
+        if ($stmt2 = $mysqli -> prepare("INSERT INTO rechnungen (rechnung_nr, rechnung_datum, kunde_id, leistung_datum, bruttowert,datum_bezahlt, id_konto) VALUES (?,?,?,?,?,?,?)")) {
+            $stmt2 -> bind_param("ssisdsi",$nr,$dat,$kunde_id,$dat_leist,$brutto,$dat_bez,$kt_id);
             if ($stmt2 -> execute()){
                 $msg="Daten erfolgreich gespeichert.";
             } else {
@@ -52,8 +53,8 @@ if (isset($_POST['submit'])){
             $stmt2 -> close();
         }
     } elseif ($action=="e"){
-        if ($stmt2 = $mysqli -> prepare("UPDATE rechnungen SET rechnung_nr = ?, rechnung_datum = ?, kunde_id = ?, leistung_datum = ?, bruttowert = ?, datum_bezahlt = ? WHERE id_rechnung = ?")) {
-            $stmt2 -> bind_param("ssisdsi",$nr,$dat,$kunde_id,$dat_leist,$brutto,$dat_bez,$id_rechnung);
+        if ($stmt2 = $mysqli -> prepare("UPDATE rechnungen SET rechnung_nr = ?, rechnung_datum = ?, kunde_id = ?, leistung_datum = ?, bruttowert = ?, datum_bezahlt = ?, id_konto = ? WHERE id_rechnung = ?")) {
+            $stmt2 -> bind_param("ssisdsii",$nr,$dat,$kunde_id,$dat_leist,$brutto,$dat_bez,$kt_id,$id_rechnung);
             if ($stmt2 -> execute()){
                 $msg="Daten erfolgreich gespeichert.";
             } else {
@@ -65,13 +66,13 @@ if (isset($_POST['submit'])){
 }
 
 //daten auslesen
-$nr=$dat=$kunde_id=$dat_leist=$dat_bez="";
+$nr=$dat=$kunde_id=$dat_leist=$dat_bez=$konto_id="";
 $brutto=0.00;
 if ($action=="e" && $id_rechnung!=0){
-    if ($stmt2 = $mysqli -> prepare("SELECT rechnung_nr, rechnung_datum, kunde_id, leistung_datum, bruttowert, datum_bezahlt FROM rechnungen WHERE id_rechnung = ?")) {
+    if ($stmt2 = $mysqli -> prepare("SELECT rechnung_nr, rechnung_datum, kunde_id, leistung_datum, bruttowert, datum_bezahlt, id_konto FROM rechnungen WHERE id_rechnung = ?")) {
         $stmt2 -> bind_param('i',$id_rechnung);
         $stmt2 -> execute();
-        $stmt2 -> bind_result($nr,$dat,$kunde_id,$dat_leist,$brutto,$dat_bez);
+        $stmt2 -> bind_result($nr,$dat,$kunde_id,$dat_leist,$brutto,$dat_bez,$konto_id);
         $stmt2 -> fetch();
         $stmt2 -> close();
     }
@@ -93,6 +94,28 @@ if ($action=="e" && $id_rechnung!=0){
     <input type="date" name="dat_leist" data-clear-btn="true" maxlength="15" value="<?=$dat_leist;?>">
     <label for="brutto">Brutto-Betrag</label>
     <input type="number" step="0.01" name="brutto" data-clear-btn="true" value="<?=$brutto;?>">
+    <label for="konto">Konto</label>
+    <select name="konto">
+        <option value="">---</option>
+        <?php
+        if ($stmt2 = $mysqli -> prepare("SELECT id_konto, konto_nr, bezeichnung FROM kontenrahmen ORDER BY konto_nr ASC")) {
+            $stmt2 -> execute();
+            $stmt2 -> bind_result($kt_id, $kt, $bez_konto);
+            while ($stmt2 -> fetch()){
+                if ($kt_id==$konto_id){
+                    ?>
+                    <option value="<?=$kt_id;?>" selected><?=$kt;?>&nbsp;<?=$bez_konto;?></option>
+                    <?php
+                } else {
+                    ?>
+                    <option value="<?=$kt_id;?>"><?=$kt;?>&nbsp;<?=$bez_konto;?></option>
+                    <?php
+                }
+            }
+            $stmt2 -> close();
+        }
+        ?>
+    </select>
     <label for="kunde">Kunde</label>
     <select name="kunde">
         <option value="">---</option>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 11. Nov 2019 um 19:14
+-- Erstellungszeit: 12. Nov 2019 um 20:18
 -- Server-Version: 8.0.18
 -- PHP-Version: 7.2.24-0ubuntu0.18.04.1
 
@@ -375,9 +375,9 @@ INSERT INTO `kontenrahmen` (`id_konto`, `konto_nr`, `bezeichnung`, `typ`) VALUES
 -- (Siehe unten für die tatsächliche Ansicht)
 --
 CREATE TABLE `krechnungen` (
-`bruttowert` decimal(32,2)
-,`firma` varchar(150)
+`firma` varchar(150)
 ,`rechnung_datum` int(5)
+,`bruttowert` decimal(32,2)
 );
 
 -- --------------------------------------------------------
@@ -387,9 +387,9 @@ CREATE TABLE `krechnungen` (
 -- (Siehe unten für die tatsächliche Ansicht)
 --
 CREATE TABLE `krechnungen_eingang` (
-`bruttowert` decimal(32,2)
-,`firma` varchar(150)
+`firma` varchar(150)
 ,`rechnung_datum` int(5)
+,`bruttowert` decimal(32,2)
 );
 
 -- --------------------------------------------------------
@@ -399,10 +399,10 @@ CREATE TABLE `krechnungen_eingang` (
 -- (Siehe unten für die tatsächliche Ansicht)
 --
 CREATE TABLE `krechnungen_eingang_kontonr` (
-`bezeichnung` varchar(250)
-,`gesamt_bruttowert` decimal(32,2)
-,`id_konto` int(11)
+`id_konto` int(11)
 ,`konto_nr` int(11)
+,`bezeichnung` varchar(250)
+,`gesamt_bruttowert` decimal(32,2)
 ,`rechnung_jahr` int(5)
 );
 
@@ -413,9 +413,23 @@ CREATE TABLE `krechnungen_eingang_kontonr` (
 -- (Siehe unten für die tatsächliche Ansicht)
 --
 CREATE TABLE `krechnungen_eingang_offen` (
-`bruttowert` decimal(32,2)
-,`firma` varchar(150)
+`firma` varchar(150)
 ,`rechnung_datum` int(5)
+,`bruttowert` decimal(32,2)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stellvertreter-Struktur des Views `krechnungen_kontonr`
+-- (Siehe unten für die tatsächliche Ansicht)
+--
+CREATE TABLE `krechnungen_kontonr` (
+`id_konto` int(11)
+,`konto_nr` int(11)
+,`bezeichnung` varchar(250)
+,`gesamt_bruttowert` decimal(32,2)
+,`rechnung_jahr` int(5)
 );
 
 -- --------------------------------------------------------
@@ -425,9 +439,9 @@ CREATE TABLE `krechnungen_eingang_offen` (
 -- (Siehe unten für die tatsächliche Ansicht)
 --
 CREATE TABLE `krechnungen_offen` (
-`bruttowert` decimal(32,2)
-,`firma` varchar(150)
+`firma` varchar(150)
 ,`rechnung_datum` int(5)
+,`bruttowert` decimal(32,2)
 );
 
 -- --------------------------------------------------------
@@ -462,7 +476,8 @@ CREATE TABLE `rechnungen` (
   `kunde_id` int(11) DEFAULT NULL,
   `leistung_datum` datetime DEFAULT CURRENT_TIMESTAMP,
   `bruttowert` decimal(10,2) DEFAULT NULL,
-  `datum_bezahlt` date DEFAULT NULL
+  `datum_bezahlt` date DEFAULT NULL,
+  `id_konto` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -519,6 +534,15 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `krechnungen_eingang_offen`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `krechnungen_eingang_offen`  AS  select `a`.`firma` AS `firma`,year(`b`.`rechnung_datum`) AS `rechnung_datum`,sum(`b`.`bruttowert`) AS `bruttowert` from (`kunden` `a` left join `rechnungen_eingang` `b` on((`a`.`kunde_id` = `b`.`kunde_id`))) where ((`b`.`datum_bezahlt` is null) and (`a`.`typ` = 'L')) group by `a`.`firma`,year(`b`.`rechnung_datum`) ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur des Views `krechnungen_kontonr`
+--
+DROP TABLE IF EXISTS `krechnungen_kontonr`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `krechnungen_kontonr`  AS  select `rechnungen`.`id_konto` AS `id_konto`,`kontenrahmen`.`konto_nr` AS `konto_nr`,`kontenrahmen`.`bezeichnung` AS `bezeichnung`,sum(`rechnungen`.`bruttowert`) AS `gesamt_bruttowert`,year(`rechnungen`.`rechnung_datum`) AS `rechnung_jahr` from (`rechnungen` left join `kontenrahmen` on((`rechnungen`.`id_konto` = `kontenrahmen`.`id_konto`))) group by `rechnungen`.`id_konto`,year(`rechnungen`.`rechnung_datum`) ;
 
 -- --------------------------------------------------------
 

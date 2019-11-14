@@ -9,3 +9,8 @@ Funktionen:
 - Diverse Auswertungen (Ein-/Ausgaben)
 
 Die Datei include/config.inc.php muss angepasst werden mit den Zugangsdaten für MySQL.
+
+Getestet mit folgenden Systemvoraussetzungen:
+- Apache 2.4 (Webserver)
+- PHP 7.2 (Erweiterung: mysqli)
+- MySQL Community Server 8.0.18 

@@ -88,7 +88,7 @@ if ($action=="e" && $id_rechnung!=0){
     <input type="hidden" name="action" value="<?=$action;?>">
     <input type="hidden" name="id" value="<?=$id_rechnung;?>">
     <label for="nr">Rechnung-Nr</label>
-    <input type="text" name="nr" data-clear-btn="true" maxlength="15" value="<?=$nr;?>">
+    <input type="text" name="nr" data-clear-btn="true" maxlength="25" value="<?=$nr;?>">
     <label for="dat">Rechnung-Datum</label>
     <input type="date" name="dat" data-clear-btn="true" maxlength="15" value="<?=$dat;?>">
     <label for="besch">Beschreibung</label>

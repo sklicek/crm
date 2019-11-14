@@ -21,4 +21,5 @@ Getestet mit folgenden Systemvoraussetzungen:
 - MySQL Community Server 8.0.18 
 
 Anmerkung zum Datenschutz:
-In dieser Anwendung gespeicherte Daten werden nicht an den Entwickler weitergeschickt. Somit bleibt alles beim Anwender, soweit die Anwendung selbst gehostet wird. Alle Daten, die Sie eingeben, verlassen nicht Ihren Computer - außer Sie veranlassen das selbst. In jedem Fall hat der Autor des Programms keinen Zugang zu Ihren Daten und er verarbeitet diese auch nicht.
+In dieser Anwendung gespeicherte Daten werden nicht an den Entwickler weitergeschickt. 
+Somit bleibt alles beim Anwender, soweit die Anwendung selbst gehostet wird. Alle Daten, die Sie eingeben, verlassen nicht Ihren Computer - außer Sie veranlassen das selbst. In jedem Fall hat der Autor des Programms keinen Zugang zu Ihren Daten und er verarbeitet diese auch nicht.

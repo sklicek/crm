@@ -57,35 +57,8 @@ $ergebnis=$gesamt_einnahmen_konten-$gesamt_ausgaben_konten;
 
 $mysqli -> close();
 ?>
-<h2>EÜR <?=$jr;?></h2>
-<table data-role="table" class="ui-responsive table-stroke">
-<thead>
-<tr><th colspan="3" style="background-color: lightgrey;">Betriebsausgaben</th></tr>
-<tr>
-<th>Konto-Nr</th>
-<th>Bezeichnung</th>
-<th>Brutto (Euro)</th>
-</tr>
-</thead>
-<tbody>
-<?php
-for($i=0;$i<count($arr_konten);$i++) {
-	?>
-	<tr>
-	<td><?=$arr_konten[$i][0];?></td>
-	<td><?=$arr_konten[$i][1];?></td>
-	<td><?=$arr_konten[$i][2];?></td>
-	</tr>
-	<?php
-}
-?>
-<tr>
-<td><b>Gesamt-Ausgaben</b></td>
-<td></td>
-<td><b><?=number_format($gesamt_ausgaben_konten,2);?></b></td>
-</tr>
-</tbody>
-</table>
+<h3>EÜR für einfachen Kontenrahmen - Kleinunternehmer (<?=$jr;?>)</h3>
+
 <table data-role="table" class="ui-responsive table-stroke">
 <thead>
 <tr><th colspan="3" style="background-color: yellow;">Betriebseinnahmen</th></tr>
@@ -108,13 +81,45 @@ for($i=0;$i<count($arr_konten_ein);$i++) {
 }
 ?>
 <tr>
-<td><b>Gesamt-Einnahmen</b></td>
+<td><b>Summe Betriebseinnahmen</b></td>
 <td></td>
 <td><b><?=number_format($gesamt_einnahmen_konten,2);?></b></td>
 </tr>
+
+<tr><th colspan="3" style="background-color: lightgrey;">Betriebsausgaben</th></tr>
+<?php
+for($i=0;$i<count($arr_konten);$i++) {
+	?>
+	<tr>
+	<td><?=$arr_konten[$i][0];?></td>
+	<td><?=$arr_konten[$i][1];?></td>
+	<td><?=$arr_konten[$i][2];?></td>
+	</tr>
+	<?php
+}
+?>
+<tr>
+<td><b>Summe Betriebsausgaben</b></td>
+<td></td>
+<td><b><?=number_format($gesamt_ausgaben_konten,2);?></b></td>
+</tr>
+<tr><th colspan="3" style="background-color: lightblue;">Gewinn/Verlust</th></tr>
+<tr>
+<td></td>
+<td><b>Summe der Betriebseinnahmen:</b></td>
+<td><b><?=number_format($gesamt_einnahmen_konten,2);?></b></td>
+</tr>
+<tr>
+<td></td>
+<td><b>Summe der Betriebsausgaben:</b></td>
+<td><b><?=number_format($gesamt_ausgaben_konten,2);?></b></td>
+</tr>
+<tr>
+<td></td>
+<td><b>Steuerpflichtiger Gewinn/Verlust:</b></td>
+<td><b><?=number_format($ergebnis,2);?></b></td>
+</tr>
 </tbody>
 </table>
-
-<p style="border: 1px dashed grey"><center><b>Gewinn/Verlust: <?=number_format($ergebnis,2);?></b></center></p>
 </body>
 </html>

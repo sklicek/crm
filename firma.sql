@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 12. Nov 2019 um 20:18
+-- Erstellungszeit: 14. Nov 2019 um 21:50
 -- Server-Version: 8.0.18
 -- PHP-Version: 7.2.24-0ubuntu0.18.04.1
 
@@ -375,9 +375,9 @@ INSERT INTO `kontenrahmen` (`id_konto`, `konto_nr`, `bezeichnung`, `typ`) VALUES
 -- (Siehe unten für die tatsächliche Ansicht)
 --
 CREATE TABLE `krechnungen` (
-`firma` varchar(150)
+`bruttowert` decimal(32,2)
+,`firma` varchar(150)
 ,`rechnung_datum` int(5)
-,`bruttowert` decimal(32,2)
 );
 
 -- --------------------------------------------------------
@@ -387,9 +387,9 @@ CREATE TABLE `krechnungen` (
 -- (Siehe unten für die tatsächliche Ansicht)
 --
 CREATE TABLE `krechnungen_eingang` (
-`firma` varchar(150)
+`bruttowert` decimal(32,2)
+,`firma` varchar(150)
 ,`rechnung_datum` int(5)
-,`bruttowert` decimal(32,2)
 );
 
 -- --------------------------------------------------------
@@ -399,10 +399,10 @@ CREATE TABLE `krechnungen_eingang` (
 -- (Siehe unten für die tatsächliche Ansicht)
 --
 CREATE TABLE `krechnungen_eingang_kontonr` (
-`id_konto` int(11)
-,`konto_nr` int(11)
-,`bezeichnung` varchar(250)
+`bezeichnung` varchar(250)
 ,`gesamt_bruttowert` decimal(32,2)
+,`id_konto` int(11)
+,`konto_nr` int(11)
 ,`rechnung_jahr` int(5)
 );
 
@@ -413,9 +413,9 @@ CREATE TABLE `krechnungen_eingang_kontonr` (
 -- (Siehe unten für die tatsächliche Ansicht)
 --
 CREATE TABLE `krechnungen_eingang_offen` (
-`firma` varchar(150)
+`bruttowert` decimal(32,2)
+,`firma` varchar(150)
 ,`rechnung_datum` int(5)
-,`bruttowert` decimal(32,2)
 );
 
 -- --------------------------------------------------------
@@ -425,10 +425,10 @@ CREATE TABLE `krechnungen_eingang_offen` (
 -- (Siehe unten für die tatsächliche Ansicht)
 --
 CREATE TABLE `krechnungen_kontonr` (
-`id_konto` int(11)
-,`konto_nr` int(11)
-,`bezeichnung` varchar(250)
+`bezeichnung` varchar(250)
 ,`gesamt_bruttowert` decimal(32,2)
+,`id_konto` int(11)
+,`konto_nr` int(11)
 ,`rechnung_jahr` int(5)
 );
 
@@ -439,9 +439,9 @@ CREATE TABLE `krechnungen_kontonr` (
 -- (Siehe unten für die tatsächliche Ansicht)
 --
 CREATE TABLE `krechnungen_offen` (
-`firma` varchar(150)
+`bruttowert` decimal(32,2)
+,`firma` varchar(150)
 ,`rechnung_datum` int(5)
-,`bruttowert` decimal(32,2)
 );
 
 -- --------------------------------------------------------
@@ -471,7 +471,7 @@ CREATE TABLE `kunden` (
 
 CREATE TABLE `rechnungen` (
   `id_rechnung` int(11) NOT NULL,
-  `rechnung_nr` varchar(15) DEFAULT NULL,
+  `rechnung_nr` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `rechnung_datum` datetime DEFAULT CURRENT_TIMESTAMP,
   `kunde_id` int(11) DEFAULT NULL,
   `leistung_datum` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -488,7 +488,7 @@ CREATE TABLE `rechnungen` (
 
 CREATE TABLE `rechnungen_eingang` (
   `id_rechnung` int(11) NOT NULL,
-  `rechnung_nr` varchar(15) DEFAULT NULL,
+  `rechnung_nr` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `rechnung_datum` datetime DEFAULT CURRENT_TIMESTAMP,
   `kunde_id` int(11) DEFAULT NULL,
   `leistung_datum` datetime DEFAULT CURRENT_TIMESTAMP,

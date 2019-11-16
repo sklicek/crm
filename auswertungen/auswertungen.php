@@ -20,7 +20,7 @@ include("menu.php");
 <h1>Auswertungen</h1>
 
 <ul>
-	<li><a href="eur.php">EÜR</a></li>
+	<li><a href="eur.php">EÜR für einfachen Kontenrahmen</a></li>
 	<li><a href="rechnungen_view.php">Ausgangsrechnungen-Jahresübersicht</a></li>
 	<li><a href="rechnungen_eingang_view.php">Eingangsrechnungen-Jahresübersicht</a></li>
 </ul>

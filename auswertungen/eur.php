@@ -59,6 +59,12 @@ $mysqli -> close();
 ?>
 <h3>EÜR für einfachen Kontenrahmen - Kleinunternehmer (<?=$jr;?>)</h3>
 
+<p>
+<b>Firma:</b><br><?=FIRMA_NAME;?><br>
+<b>Adresse:</b><br><?=FIRMA_ADRESSE;?><br><?=FIRMA_PLZ;?> <?=FIRMA_ORT;?><br>
+<b>Steuernummer:</b><br><?=FIRMA_STEUERNR;?>
+</p>
+
 <table data-role="table" class="ui-responsive table-stroke">
 <thead>
 <tr><th colspan="3" style="background-color: yellow;">Betriebseinnahmen</th></tr>

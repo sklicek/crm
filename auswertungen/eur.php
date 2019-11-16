@@ -57,6 +57,7 @@ $ergebnis=$gesamt_einnahmen_konten-$gesamt_ausgaben_konten;
 
 $mysqli -> close();
 ?>
+<h2>Einnahmenüberschussrechnung</h2>
 <h3>EÜR für einfachen Kontenrahmen - Kleinunternehmer (<?=$jr;?>)</h3>
 
 <p>

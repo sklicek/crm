@@ -67,8 +67,9 @@ $mysqli -> close();
 
 <table data-role="table" class="ui-responsive table-stroke">
 <thead>
-<tr><th colspan="3" style="background-color: yellow;">Betriebseinnahmen</th></tr>
+<tr><th colspan="4" style="background-color: yellow;">Betriebseinnahmen</th></tr>
 <tr>
+<th>Zeile</th>
 <th>Konto-Nr</th>
 <th>Bezeichnung</th>
 <th>Brutto (Euro)</th>
@@ -79,6 +80,7 @@ $mysqli -> close();
 for($i=0;$i<count($arr_konten_ein);$i++) {
 	?>
 	<tr>
+	<td></td>
 	<td><?=$arr_konten_ein[$i][0];?></td>
 	<td><?=$arr_konten_ein[$i][1];?></td>
 	<td><?=$arr_konten_ein[$i][2];?></td>
@@ -87,16 +89,18 @@ for($i=0;$i<count($arr_konten_ein);$i++) {
 }
 ?>
 <tr>
-<td><b>Summe Betriebseinnahmen</b></td>
+<td>22</td>
 <td></td>
+<td><b>Summe Betriebseinnahmen</b></td>
 <td><b><?=number_format($gesamt_einnahmen_konten,2);?></b></td>
 </tr>
 
-<tr><th colspan="3" style="background-color: lightgrey;">Betriebsausgaben</th></tr>
+<tr><th colspan="4" style="background-color: lightgrey;">Betriebsausgaben</th></tr>
 <?php
 for($i=0;$i<count($arr_konten);$i++) {
 	?>
 	<tr>
+	<td></td>
 	<td><?=$arr_konten[$i][0];?></td>
 	<td><?=$arr_konten[$i][1];?></td>
 	<td><?=$arr_konten[$i][2];?></td>
@@ -105,24 +109,28 @@ for($i=0;$i<count($arr_konten);$i++) {
 }
 ?>
 <tr>
-<td><b>Summe Betriebsausgaben</b></td>
+<td>88</td>
 <td></td>
+<td><b>Summe Betriebsausgaben</b></td>
 <td><b><?=number_format($gesamt_ausgaben_konten,2);?></b></td>
 </tr>
-<tr><th colspan="3" style="background-color: lightblue;">Gewinn/Verlust</th></tr>
+<tr><th colspan="4" style="background-color: lightblue;">Gewinn/Verlust</th></tr>
 <tr>
+<td>89</td>
 <td></td>
-<td><b>Summe der Betriebseinnahmen:</b></td>
+<td><b>Summe der Betriebseinnahmen (Übertrag aus Zeile 22)</b></td>
 <td><b><?=number_format($gesamt_einnahmen_konten,2);?></b></td>
 </tr>
 <tr>
+<td>90</td>
 <td></td>
-<td><b>Summe der Betriebsausgaben:</b></td>
+<td><b>abzüglich Summe der Betriebsausgaben (Übertrag aus Zeile 65)</b></td>
 <td><b><?=number_format($gesamt_ausgaben_konten,2);?></b></td>
 </tr>
 <tr>
+<td>109</td>
 <td></td>
-<td><b>Steuerpflichtiger Gewinn/Verlust:</b></td>
+<td><b>Steuerpflichtiger Gewinn/Verlust</b></td>
 <td><b><?=number_format($ergebnis,2);?></b></td>
 </tr>
 </tbody>

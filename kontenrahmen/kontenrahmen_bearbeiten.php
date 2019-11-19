@@ -37,10 +37,11 @@ if (isset($_POST['submit'])){
     $konto_nr=htmlspecialchars($_POST['konto_nr']);
     $bez=htmlspecialchars($_POST['bez']);
     $typ=htmlspecialchars($_POST['typ']);
+    $zeile_nr=htmlspecialchars($_POST['zeile_nr']);
     
     if ($action=="n"){
-        if ($stmt2 = $mysqli -> prepare("INSERT INTO kontenrahmen (konto_nr, bezeichnung, typ) VALUES (?,?,?)")) {
-            $stmt2 -> bind_param("sss",$konto_nr,$bez,$typ);
+        if ($stmt2 = $mysqli -> prepare("INSERT INTO kontenrahmen (konto_nr, bezeichnung, typ, zeile_nr) VALUES (?,?,?,?)")) {
+            $stmt2 -> bind_param("sssi",$konto_nr,$bez,$typ,$zeile_nr);
             if ($stmt2 -> execute()){
                 $msg="Daten erfolgreich gespeichert.";
             } else {
@@ -49,8 +50,8 @@ if (isset($_POST['submit'])){
             $stmt2 -> close();
         }
     } elseif ($action=="e"){
-        if ($stmt2 = $mysqli -> prepare("UPDATE kontenrahmen SET konto_nr = ?, bezeichnung = ?, typ = ? WHERE id_konto = ?")) {
-            $stmt2 -> bind_param("sssi",$konto_nr,$bez,$typ,$id_konto);
+        if ($stmt2 = $mysqli -> prepare("UPDATE kontenrahmen SET konto_nr = ?, bezeichnung = ?, typ = ?, zeile_nr = ? WHERE id_konto = ?")) {
+            $stmt2 -> bind_param("sssii",$konto_nr,$bez,$typ,$zeile_nr,$id_konto);
             if ($stmt2 -> execute()){
                 $msg="Daten erfolgreich gespeichert.";
             } else {
@@ -63,11 +64,12 @@ if (isset($_POST['submit'])){
 
 //daten auslesen
 $konto_nr=$bez=$typ="";
+$zeile_nr=0;
 if ($action=="e" && $id_konto!=0){
-    if ($stmt2 = $mysqli -> prepare("SELECT konto_nr, bezeichnung, typ FROM kontenrahmen WHERE id_konto = ?")) {
+    if ($stmt2 = $mysqli -> prepare("SELECT konto_nr, bezeichnung, typ, zeile_nr FROM kontenrahmen WHERE id_konto = ?")) {
         $stmt2 -> bind_param('i',$id_konto);
         $stmt2 -> execute();
-        $stmt2 -> bind_result($konto_nr,$bez,$typ);
+        $stmt2 -> bind_result($konto_nr,$bez,$typ,$zeile_nr);
         $stmt2 -> fetch();
         $stmt2 -> close();
     }
@@ -135,6 +137,8 @@ if ($action=="d" && $id_konto!=0){
         }
         ?>
     </select>
+    <label for="zeile_nr">Zeilennummer (EÜR-Formular)</label>
+    <input type="number" step="1" name="zeile_nr" data-clear-btn="true" value="<?=$zeile_nr;?>">
     <input type="submit" name="submit" value="Speichern">
 </form>
 <?php

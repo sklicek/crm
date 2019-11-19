@@ -27,6 +27,7 @@ include("menu.php");
      <th>ID</th>
      <th>Konto-Nr</th>
      <th>Bezeichnung</th>
+     <th>Zeile-Nr (EÜR)</th>
      <th>Ein-/Ausgabe</th>
      <th>Aktion</th>
     </tr>	
@@ -34,9 +35,9 @@ include("menu.php");
   <tbody>
 <?php
 $counter=0;
-if ($stmt2 = $mysqli -> prepare("SELECT id_konto, konto_nr, bezeichnung, typ FROM kontenrahmen ORDER BY konto_nr ASC")) {
+if ($stmt2 = $mysqli -> prepare("SELECT id_konto, konto_nr, bezeichnung, typ, zeile_nr FROM kontenrahmen ORDER BY konto_nr ASC")) {
   $stmt2 -> execute();
-  $stmt2 -> bind_result($id, $konto_nr, $bez, $typ);
+  $stmt2 -> bind_result($id, $konto_nr, $bez, $typ, $zeile_nr);
   while ($stmt2 -> fetch()){
     $counter++;
     ?>
@@ -44,6 +45,7 @@ if ($stmt2 = $mysqli -> prepare("SELECT id_konto, konto_nr, bezeichnung, typ FRO
     <td><a href="kontenrahmen_bearbeiten.php?id=<?=$id;?>&action=e"><?=$id;?></a></td>
     <td><?=$konto_nr;?></td>
     <td><?=$bez;?></td>
+    <td><?=$zeile_nr;?></td>
     <td><?=$typ;?></td>
     <td><a onclick="return confirm('Definitif löschen ?');" href="kontenrahmen_bearbeiten.php?id=<?=$id;?>&action=d" data-role="button" data-mini="true">Löschen</a></td>
     </tr>
@@ -54,7 +56,7 @@ $stmt2->close();
 $mysqli->close();
 ?>
 <tr>
- <td colspan="4" style="background-color:lightgrey">Anzahl: <?=$counter;?></td>
+ <td colspan="5" style="background-color:lightgrey">Anzahl: <?=$counter;?></td>
 </tr>
 </tbody>
 </table>

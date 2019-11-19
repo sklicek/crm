@@ -19,22 +19,22 @@ include("menu.php");
 ?>
 <h1>Auswertungen</h1>
 <?php
-//Ausgaben nach Konten gruppiert
 $jr=date("Y");
-$gesamt_ausgaben_konten=0;
-$arr_konten=array();
+
+//Kontenrahmen holen
+$arr_kontenrahmen=array();
 $a=0;
-if ($stmt2 = $mysqli -> prepare("SELECT konto_nr, bezeichnung, gesamt_bruttowert FROM krechnungen_eingang_kontonr WHERE rechnung_jahr = ? ORDER BY konto_nr ASC")) {
-	  $stmt2 -> bind_param('i',$jr);
+if ($stmt2 = $mysqli -> prepare("SELECT konto_nr, bezeichnung, zeile_nr, typ FROM kontenrahmen ORDER BY konto_nr ASC")) {
 	  $stmt2 -> execute();
-	  $stmt2 -> bind_result($konto_nr, $bez, $brutto);
+	  $stmt2 -> bind_result($konto_nr, $bez, $zeile_nr, $typ);
 	  while ($stmt2 -> fetch()){
-		  $gesamt_ausgaben_konten+=$brutto;
-		  $arr_konten[$a][0]=$konto_nr;
-		  $arr_konten[$a][1]=$bez;
-		  $arr_konten[$a][2]=$brutto;
-		  $a++;
-     }
+	  	  $arr_kontenrahmen[$a][0]=$konto_nr;
+	  	  $arr_kontenrahmen[$a][1]=$bez;
+	  	  $arr_kontenrahmen[$a][2]=$zeile_nr;
+	  	  $arr_kontenrahmen[$a][3]=$typ;
+	  	  $a++;
+	  }
+	  $stmt2 -> close();
 }
 
 $gesamt_einnahmen_konten=0;
@@ -51,6 +51,25 @@ if ($stmt2 = $mysqli -> prepare("SELECT konto_nr, bezeichnung, gesamt_bruttowert
 		  $arr_konten_ein[$a][2]=$brutto;
 		  $a++;
      }
+     $stmt2 -> close();
+}	
+
+//Ausgaben nach Konten gruppiert
+$gesamt_ausgaben_konten=0;
+$arr_konten=array();
+$a=0;
+if ($stmt2 = $mysqli -> prepare("SELECT konto_nr, bezeichnung, gesamt_bruttowert FROM krechnungen_eingang_kontonr WHERE rechnung_jahr = ? ORDER BY konto_nr ASC")) {
+	  $stmt2 -> bind_param('i',$jr);
+	  $stmt2 -> execute();
+	  $stmt2 -> bind_result($konto_nr, $bez, $brutto);
+	  while ($stmt2 -> fetch()){
+		  $gesamt_ausgaben_konten+=$brutto;
+		  $arr_konten[$a][0]=$konto_nr;
+		  $arr_konten[$a][1]=$bez;
+		  $arr_konten[$a][2]=$brutto;
+		  $a++;
+     }
+     $stmt2 -> close();
 }
 
 $ergebnis=$gesamt_einnahmen_konten-$gesamt_ausgaben_konten;
@@ -78,15 +97,28 @@ $mysqli -> close();
 </thead>
 <tbody>
 <?php
-for($i=0;$i<count($arr_konten_ein);$i++) {
-	?>
-	<tr>
-	<td></td>
-	<td><?=$arr_konten_ein[$i][0];?></td>
-	<td><?=$arr_konten_ein[$i][1];?></td>
-	<td><?=$arr_konten_ein[$i][2];?></td>
-	</tr>
-	<?php
+for ($i=0;$i<count($arr_kontenrahmen);$i++){
+	//Betriebseinnahmen
+	if ($arr_kontenrahmen[$i][3]=="E"){
+		$ktnr=$arr_kontenrahmen[$i][0];
+		$bez=$arr_kontenrahmen[$i][1];
+		$zeilenr=$arr_kontenrahmen[$i][2];
+		$brutto=0;
+		for($e=0;$e<count($arr_konten_ein);$e++) {
+			if ($arr_konten_ein[$e][0]==$ktnr){
+				$brutto=$arr_konten_ein[$e][2];
+				break;
+			}
+		}
+		?>
+		<tr>
+			<td><?=$zeilenr;?></td>
+			<td><?=$ktnr;?></td>
+			<td><?=$bez;?></td>
+			<td><?=number_format($brutto,2);?></td>
+		</tr>
+		<?php
+	}		
 }
 ?>
 <tr>
@@ -98,7 +130,30 @@ for($i=0;$i<count($arr_konten_ein);$i++) {
 
 <tr><th colspan="4" style="background-color: lightgrey;">Betriebsausgaben</th></tr>
 <?php
-for($i=0;$i<count($arr_konten);$i++) {
+for ($i=0;$i<count($arr_kontenrahmen);$i++){
+	//Betriebsausgaben
+	if ($arr_kontenrahmen[$i][3]=="A"){
+		$ktnr=$arr_kontenrahmen[$i][0];
+		$bez=$arr_kontenrahmen[$i][1];
+		$zeilenr=$arr_kontenrahmen[$i][2];
+		$brutto=0;
+		for($e=0;$e<count($arr_konten);$e++) {
+			if ($arr_konten[$e][0]==$ktnr){
+				$brutto=$arr_konten[$e][2];
+				break;
+			}
+		}
+		?>
+		<tr>
+			<td><?=$zeilenr;?></td>
+			<td><?=$ktnr;?></td>
+			<td><?=$bez;?></td>
+			<td><?=number_format($brutto,2);?></td>
+		</tr>
+		<?php
+	}		
+}
+/*for($i=0;$i<count($arr_konten);$i++) {
 	?>
 	<tr>
 	<td></td>
@@ -107,10 +162,10 @@ for($i=0;$i<count($arr_konten);$i++) {
 	<td><?=$arr_konten[$i][2];?></td>
 	</tr>
 	<?php
-}
+}*/
 ?>
 <tr>
-<td>88</td>
+<td>65</td>
 <td></td>
 <td><b>Summe Betriebsausgaben</b></td>
 <td><b><?=number_format($gesamt_ausgaben_konten,2);?></b></td>

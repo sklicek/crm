@@ -35,6 +35,7 @@ include("menu.php");
      <th>Lieferant</th>
      <th>Beschreibung</th>
      <th>Datum Bezahlt</th>
+     <th>Aktion</th>
     </tr>	
   </thead>
   <tbody>
@@ -60,6 +61,7 @@ if ($stmt2 = $mysqli -> prepare("SELECT a.id_rechnung, a.rechnung_nr, a.rechnung
     <td><?=$kunde;?></td>
     <td><?=$besch;?></td>
     <td><?=$dat_bez;?></td>
+    <td><a onclick="return confirm('Definitif löschen ?');" href="rechnungen_bearbeiten.php?id=<?=$id;?>&action=d" data-role="button" data-mini="true">Löschen</a></td>
     </tr>
     <?php	
   }
@@ -70,7 +72,7 @@ $mysqli->close();
 <tr>
  <td colspan="1" style="background-color:lightgrey">Anzahl: <?=$counter;?></td>
  <td colspan="3" style="background-color:lightgrey">&nbsp;</td>
- <td colspan="4" style="background-color:lightgrey"><b><?=number_format($total,2);?></b></td>
+ <td colspan="5" style="background-color:lightgrey"><b><?=number_format($total,2);?></b></td>
 </tr>
 </tbody>
 </table>

@@ -65,6 +65,22 @@ if (isset($_POST['submit'])){
     }
 }
 
+//rechnung löschen
+if ($action=="d" && $id_rechnung!=0){
+    if ($stmt2 = $mysqli -> prepare("DELETE FROM rechnungen WHERE id_rechnung = ?")) {
+        $stmt2 -> bind_param("i",$id_rechnung);
+        $stmt2 -> execute();
+        $stmt2 -> fetch();
+        $stmt2 -> close();
+    }
+    ?>
+    <script type="text/javascript" >
+    window.location.href="rechnungen.php";
+    </script>
+    <?php
+    exit;
+}
+
 //daten auslesen
 $nr=$dat=$kunde_id=$dat_leist=$dat_bez=$konto_id="";
 $brutto=0.00;

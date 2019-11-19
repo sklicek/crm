@@ -34,6 +34,7 @@ include("menu.php");
      <th>Bruttobetrag</th>
      <th>Kunde</th>
      <th>Datum Bezahlt</th>
+     <th>Aktion</th>
     </tr>	
   </thead>
   <tbody>
@@ -58,6 +59,7 @@ if ($stmt2 = $mysqli -> prepare("SELECT a.id_rechnung, a.rechnung_nr, a.rechnung
     <td><?=$brutto;?></td>
     <td><?=$kunde;?></td>
     <td><?=$dat_bez;?></td>
+    <td><a onclick="return confirm('Definitif löschen ?');" href="rechnungen_bearbeiten.php?id=<?=$id;?>&action=d" data-role="button" data-mini="true">Löschen</a></td>
     </tr>
     <?php	
   }

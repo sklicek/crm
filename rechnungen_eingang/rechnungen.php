@@ -23,6 +23,28 @@ include("menu.php");
   <a href="rechnungen_bearbeiten.php?action=n" data-role="button" data-icon="plus">Neue Rechnung</a><br/>
 </div>
 </p>
+<p>
+<div class="ui-block-b">
+<form method="post">
+<select name="id_konto">
+  <option value="">---</option>
+  <?php
+  if ($stmt2 = $mysqli -> prepare("SELECT DISTINCT a.id_konto, b.konto_nr, b.bezeichnung FROM rechnungen_eingang as a left join kontenrahmen as b on a.id_konto=b.id_konto")) {
+    $stmt2 -> execute();
+    $stmt2 -> bind_result($id_konto,$konto_nr,$bez);
+    while ($stmt2 -> fetch()){
+      ?>
+      <option value="<?=$id_konto;?>"><?=$konto_nr;?>&nbsp;<?=$bez;?></option>
+      <?php
+    }
+    $stmt2 -> close();
+  }
+  ?>
+</select>
+<input type="submit" name="submit" value="Suchen" />
+</form>
+</div>
+</p>
 
 <table data-role="table" class="ui-responsive table-stroke">
   <thead>
@@ -42,7 +64,12 @@ include("menu.php");
 <?php
 $counter=0;
 $total=0;
-if ($stmt2 = $mysqli -> prepare("SELECT a.id_rechnung, a.rechnung_nr, a.rechnung_datum, a.leistung_datum, a.bruttowert, b.firma, a.datum_bezahlt, a.beschreibung FROM rechnungen_eingang a LEFT JOIN kunden b on a.kunde_id=b.kunde_id ORDER BY a.rechnung_datum DESC, a.rechnung_nr DESC")) {
+$sql="SELECT a.id_rechnung, a.rechnung_nr, a.rechnung_datum, a.leistung_datum, a.bruttowert, b.firma, a.datum_bezahlt, a.beschreibung FROM rechnungen_eingang a LEFT JOIN kunden b on a.kunde_id=b.kunde_id";
+if (isset($_POST['submit']) && $_POST['id_konto']!=""){
+  $sql.=" WHERE a.id_konto = ".$_POST['id_konto'];
+}
+$sql.=" ORDER BY a.rechnung_datum DESC, a.rechnung_nr DESC";
+if ($stmt2 = $mysqli -> prepare($sql)) {
   $stmt2 -> execute();
   $stmt2 -> bind_result($id, $nr, $dat, $dat_leist, $brutto, $kunde,$dat_bez,$besch);
   while ($stmt2 -> fetch()){

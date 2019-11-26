@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 19. Nov 2019 um 17:54
+-- Erstellungszeit: 26. Nov 2019 um 20:20
 -- Server-Version: 8.0.18
 -- PHP-Version: 7.2.24-0ubuntu0.18.04.1
 
@@ -507,7 +507,7 @@ CREATE TABLE `rechnungen_eingang` (
 --
 DROP TABLE IF EXISTS `krechnungen`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `krechnungen`  AS  select `a`.`firma` AS `firma`,year(`b`.`rechnung_datum`) AS `rechnung_datum`,sum(`b`.`bruttowert`) AS `bruttowert` from (`kunden` `a` left join `rechnungen` `b` on((`a`.`kunde_id` = `b`.`kunde_id`))) where (`b`.`datum_bezahlt` is not null) group by `a`.`firma`,year(`b`.`rechnung_datum`) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `krechnungen`  AS  select `a`.`firma` AS `firma`,year(`b`.`datum_bezahlt`) AS `rechnung_datum`,sum(`b`.`bruttowert`) AS `bruttowert` from (`kunden` `a` left join `rechnungen` `b` on((`a`.`kunde_id` = `b`.`kunde_id`))) where (`b`.`datum_bezahlt` is not null) group by `a`.`firma`,year(`b`.`datum_bezahlt`) ;
 
 -- --------------------------------------------------------
 
@@ -516,7 +516,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `krechnungen_eingang`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `krechnungen_eingang`  AS  select `a`.`firma` AS `firma`,year(`b`.`rechnung_datum`) AS `rechnung_datum`,sum(`b`.`bruttowert`) AS `bruttowert` from (`kunden` `a` left join `rechnungen_eingang` `b` on((`a`.`kunde_id` = `b`.`kunde_id`))) where ((`b`.`datum_bezahlt` is not null) and (`a`.`typ` = 'L')) group by `a`.`firma`,year(`b`.`rechnung_datum`) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `krechnungen_eingang`  AS  select `a`.`firma` AS `firma`,year(`b`.`datum_bezahlt`) AS `rechnung_datum`,sum(`b`.`bruttowert`) AS `bruttowert` from (`kunden` `a` left join `rechnungen_eingang` `b` on((`a`.`kunde_id` = `b`.`kunde_id`))) where ((`b`.`datum_bezahlt` is not null) and (`a`.`typ` = 'L')) group by `a`.`firma`,year(`b`.`datum_bezahlt`) ;
 
 -- --------------------------------------------------------
 
@@ -525,7 +525,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `krechnungen_eingang_kontonr`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `krechnungen_eingang_kontonr`  AS  select `rechnungen_eingang`.`id_konto` AS `id_konto`,`kontenrahmen`.`konto_nr` AS `konto_nr`,`kontenrahmen`.`bezeichnung` AS `bezeichnung`,sum(`rechnungen_eingang`.`bruttowert`) AS `gesamt_bruttowert`,year(`rechnungen_eingang`.`rechnung_datum`) AS `rechnung_jahr` from (`rechnungen_eingang` left join `kontenrahmen` on((`rechnungen_eingang`.`id_konto` = `kontenrahmen`.`id_konto`))) group by `rechnungen_eingang`.`id_konto`,year(`rechnungen_eingang`.`rechnung_datum`) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `krechnungen_eingang_kontonr`  AS  select `rechnungen_eingang`.`id_konto` AS `id_konto`,`kontenrahmen`.`konto_nr` AS `konto_nr`,`kontenrahmen`.`bezeichnung` AS `bezeichnung`,sum(`rechnungen_eingang`.`bruttowert`) AS `gesamt_bruttowert`,year(`rechnungen_eingang`.`datum_bezahlt`) AS `rechnung_jahr` from (`rechnungen_eingang` left join `kontenrahmen` on((`rechnungen_eingang`.`id_konto` = `kontenrahmen`.`id_konto`))) group by `rechnungen_eingang`.`id_konto`,year(`rechnungen_eingang`.`datum_bezahlt`) ;
 
 -- --------------------------------------------------------
 
@@ -543,7 +543,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `krechnungen_kontonr`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `krechnungen_kontonr`  AS  select `rechnungen`.`id_konto` AS `id_konto`,`kontenrahmen`.`konto_nr` AS `konto_nr`,`kontenrahmen`.`bezeichnung` AS `bezeichnung`,sum(`rechnungen`.`bruttowert`) AS `gesamt_bruttowert`,year(`rechnungen`.`rechnung_datum`) AS `rechnung_jahr` from (`rechnungen` left join `kontenrahmen` on((`rechnungen`.`id_konto` = `kontenrahmen`.`id_konto`))) group by `rechnungen`.`id_konto`,year(`rechnungen`.`rechnung_datum`) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `krechnungen_kontonr`  AS  select `rechnungen`.`id_konto` AS `id_konto`,`kontenrahmen`.`konto_nr` AS `konto_nr`,`kontenrahmen`.`bezeichnung` AS `bezeichnung`,sum(`rechnungen`.`bruttowert`) AS `gesamt_bruttowert`,year(`rechnungen`.`datum_bezahlt`) AS `rechnung_jahr` from (`rechnungen` left join `kontenrahmen` on((`rechnungen`.`id_konto` = `kontenrahmen`.`id_konto`))) group by `rechnungen`.`id_konto`,year(`rechnungen`.`datum_bezahlt`) ;
 
 -- --------------------------------------------------------
 

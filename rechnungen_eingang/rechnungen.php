@@ -24,8 +24,9 @@ include("menu.php");
 </div>
 </p>
 <p>
-<div class="ui-block-b">
+
 <form method="post">
+<div class="ui-block-b">
 <select name="id_konto">
   <option value="">---</option>
   <?php
@@ -41,9 +42,12 @@ include("menu.php");
   }
   ?>
 </select>
-<input type="submit" name="submit" value="Suchen" />
-</form>
 </div>
+<div class="ui-block-b">
+<input type="submit" name="submit" value="Suchen" />
+</div>
+</form>
+
 </p>
 
 <table data-role="table" class="ui-responsive table-stroke">

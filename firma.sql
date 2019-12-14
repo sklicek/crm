@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 14. Dez 2019 um 18:49
+-- Erstellungszeit: 14. Dez 2019 um 19:17
 -- Server-Version: 8.0.17
 -- PHP-Version: 7.2.22
 
@@ -478,7 +478,8 @@ CREATE TABLE `rechnungen` (
   `leistung_datum` datetime DEFAULT CURRENT_TIMESTAMP,
   `bruttowert` decimal(10,2) DEFAULT NULL,
   `datum_bezahlt` date DEFAULT NULL,
-  `id_konto` int(11) DEFAULT NULL
+  `id_konto` int(11) DEFAULT NULL,
+  `pdffile` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

@@ -64,14 +64,14 @@ include("menu.php");
 <?php
 $counter=0;
 $total=0;
-$sql="SELECT a.id_rechnung, a.rechnung_nr, a.rechnung_datum, a.leistung_datum, a.bruttowert, b.firma, a.datum_bezahlt, a.beschreibung FROM rechnungen_eingang a LEFT JOIN kunden b on a.kunde_id=b.kunde_id";
+$sql="SELECT a.id_rechnung, a.rechnung_nr, a.rechnung_datum, a.leistung_datum, a.bruttowert, b.firma, a.datum_bezahlt, a.beschreibung, a.pdffile FROM rechnungen_eingang a LEFT JOIN kunden b on a.kunde_id=b.kunde_id";
 if (isset($_POST['submit']) && $_POST['id_konto']!=""){
   $sql.=" WHERE a.id_konto = ".$_POST['id_konto'];
 }
 $sql.=" ORDER BY a.rechnung_datum DESC, a.rechnung_nr DESC";
 if ($stmt2 = $mysqli -> prepare($sql)) {
   $stmt2 -> execute();
-  $stmt2 -> bind_result($id, $nr, $dat, $dat_leist, $brutto, $kunde,$dat_bez,$besch);
+  $stmt2 -> bind_result($id, $nr, $dat, $dat_leist, $brutto, $kunde,$dat_bez,$besch,$pdffile);
   while ($stmt2 -> fetch()){
     $counter++;
     if ($dat!="") $dat=date("d.m.Y",strtotime($dat));
@@ -88,7 +88,17 @@ if ($stmt2 = $mysqli -> prepare($sql)) {
     <td><?=$kunde;?></td>
     <td><?=$besch;?></td>
     <td><?=$dat_bez;?></td>
-    <td><a onclick="return confirm('Definitif löschen ?');" href="rechnungen_bearbeiten.php?id=<?=$id;?>&action=d" data-role="button" data-mini="true">Löschen</a></td>
+    <td>
+		<a onclick="return confirm('Definitif löschen ?');" href="rechnungen_bearbeiten.php?id=<?=$id;?>&action=d" data-role="button" data-mini="true">Löschen</a>
+		<a href="upload_file.php?id_rechnung=<?=$id;?>&nr=<?=$nr;?>" data-role="button" data-mini="true">Dateianhang</a>
+		<?php
+		if ($pdffile!=""){
+			?>
+			<a href="<?=$pdffile;?>" target="_blank" data-role="button" data-mini="true">Öffnen</a>
+			<?php
+		}
+		?>
+	</td>
     </tr>
     <?php	
   }

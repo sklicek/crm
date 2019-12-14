@@ -41,9 +41,9 @@ include("menu.php");
 <?php
 $counter=0;
 $total=0;
-if ($stmt2 = $mysqli -> prepare("SELECT a.id_rechnung, a.rechnung_nr, a.rechnung_datum, a.leistung_datum, a.bruttowert, b.firma, a.datum_bezahlt FROM rechnungen a LEFT JOIN kunden b on a.kunde_id=b.kunde_id ORDER BY a.rechnung_datum DESC, a.rechnung_nr DESC")) {
+if ($stmt2 = $mysqli -> prepare("SELECT a.id_rechnung, a.rechnung_nr, a.rechnung_datum, a.leistung_datum, a.bruttowert, b.firma, a.datum_bezahlt, a.pdffile FROM rechnungen a LEFT JOIN kunden b on a.kunde_id=b.kunde_id ORDER BY a.rechnung_datum DESC, a.rechnung_nr DESC")) {
   $stmt2 -> execute();
-  $stmt2 -> bind_result($id, $nr, $dat, $dat_leist, $brutto, $kunde,$dat_bez);
+  $stmt2 -> bind_result($id, $nr, $dat, $dat_leist, $brutto, $kunde,$dat_bez,$pdffile);
   while ($stmt2 -> fetch()){
     $counter++;
     if ($dat!="") $dat=date("d.m.Y",strtotime($dat));
@@ -59,7 +59,17 @@ if ($stmt2 = $mysqli -> prepare("SELECT a.id_rechnung, a.rechnung_nr, a.rechnung
     <td><?=$brutto;?></td>
     <td><?=$kunde;?></td>
     <td><?=$dat_bez;?></td>
-    <td><a onclick="return confirm('Definitif löschen ?');" href="rechnungen_bearbeiten.php?id=<?=$id;?>&action=d" data-role="button" data-mini="true">Löschen</a></td>
+    <td>
+		<a onclick="return confirm('Definitif löschen ?');" href="rechnungen_bearbeiten.php?id=<?=$id;?>&action=d" data-role="button" data-mini="true">Löschen</a>
+		<a href="upload_file.php?id_rechnung=<?=$id;?>&nr=<?=$nr;?>" data-role="button" data-mini="true">Dateianhang</a>
+		<?php
+		if ($pdffile!=""){
+			?>
+			<a href="<?=$pdffile;?>" target="_blank" data-role="button" data-mini="true">Öffnen</a>
+			<?php
+		}
+		?>
+	</td>
     </tr>
     <?php	
   }
@@ -70,7 +80,7 @@ $mysqli->close();
 <tr>
  <td colspan="1" style="background-color:lightgrey">Anzahl: <?=$counter;?></td>
  <td colspan="3" style="background-color:lightgrey">&nbsp;</td>
- <td colspan="3" style="background-color:lightgrey"><b><?=number_format($total,2);?></b></td>
+ <td colspan="4" style="background-color:lightgrey"><b><?=number_format($total,2);?></b></td>
 </tr>
 </tbody>
 </table>

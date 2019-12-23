@@ -53,7 +53,17 @@ if ($stmt2 = $mysqli -> prepare("SELECT a.id_rechnung, a.rechnung_nr, a.rechnung
     ?>
     <tr>
     <td><a href="rechnungen_bearbeiten.php?id=<?=$id;?>&action=e"><?=$id;?></a></td>
-    <td><?=$nr;?></td>
+ 	 <td>
+    	<?php
+		if ($pdffile!=""){
+			?>
+			<a href="<?=$pdffile;?>" target="_blank"><?=$nr;?></a>
+			<?php
+		} else {
+			echo $nr;
+		}
+		?>
+    </td>
     <td><?=$dat;?></td>
     <td><?=$dat_leist;?></td>
     <td><?=$brutto;?></td>
@@ -62,13 +72,6 @@ if ($stmt2 = $mysqli -> prepare("SELECT a.id_rechnung, a.rechnung_nr, a.rechnung
     <td>
 		<a onclick="return confirm('Definitif löschen ?');" href="rechnungen_bearbeiten.php?id=<?=$id;?>&action=d" data-role="button" data-mini="true">Löschen</a>
 		<a href="upload_file.php?id_rechnung=<?=$id;?>&nr=<?=$nr;?>" data-role="button" data-mini="true">Dateianhang</a>
-		<?php
-		if ($pdffile!=""){
-			?>
-			<a href="<?=$pdffile;?>" target="_blank" data-role="button" data-mini="true">Öffnen</a>
-			<?php
-		}
-		?>
 	</td>
     </tr>
     <?php	

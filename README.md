@@ -14,7 +14,8 @@ Funktionen:
 - Diverse Auswertungen (Ein-/Ausgaben)
 
 Die Datei include/config.inc.php muss angepasst werden mit den Zugangsdaten für MySQL.
-Ein Unterverzeichnis uploads muss erstellt werden im Hauptverzeichnis der Webanwendung (hier: firma)
+
+Für die Verbindung der PDF-Dokumente mit der Datenbank, muss ein Unterverzeichnis 'uploads' erstellt werden im Hauptverzeichnis der Webanwendung (hier: firma) mit 2 Unterverzeichnissen:
 - firma / uploads / rechnungen
 - firma / uploads / rechnungen_eingang
 

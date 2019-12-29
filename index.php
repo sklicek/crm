@@ -6,20 +6,20 @@
 <meta name="author" content="Steve Klicek" >
 <meta name="description" content="Mein CRM">
 <meta name="robots" content="index,follow">
-<title>Firma: Mein CRM</title>
+<title>Mein CRM</title>
 <!-- jquery mobile -->
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 <?php
+session_start();
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+$current_loc=$protocol.$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$_SESSION['root_path']=$protocol.$_SERVER['HTTP_HOST'].dirname($_SERVER['SCRIPT_NAME']);
+
 include("include/menu.php");
 @require_once("include/config.inc.php");
-?>
-<h1>Hauptseite</h1>
-<h2>Dashboard</h2>
-<?php
+
 $counter=0;
 if ($stmt2 = $mysqli -> prepare("SELECT count(*) FROM kunden where typ='K'")) {
   $stmt2 -> execute();
@@ -80,44 +80,48 @@ $ergebnis=$gesamt_einnahmen-$gesamt_ausgaben;
 
 $mysqli -> close();
 ?>
-<table data-role="table" class="ui-responsive table-stroke">
-<thead>
-<tr>
-  <th>Kunden</th>
-  <th style="background-color:yellow">Rechnungen<br>Ausgang</th>
-  <th>Lieferanten</th>
-  <th style="background-color:lightgrey">Rechnungen<br>Eingang</th>
-</tr>
-</thead>
+<div class="table">
+<p class="header">Im System gespeichert</p>
+<table>
 <tbody>
 <tr>
-<td><a href="kunden/kunden.php"><?=$counter;?></a></td>
-<td style="background-color:yellow"><a href="rechnungen/rechnungen.php"><?=$counter_rech;?></a></td>
-<td><a href="lieferanten/lieferanten.php"><?=$counter_lief;?></a></td>
-<td style="background-color:lightgrey"><a href="rechnungen_eingang/rechnungen.php"><?=$counter_rech_ein;?></a></td>
+  <td>Kunden</td>
+  <td><?=$counter;?></td>
+</tr>
+<tr>
+  <td>Rechnungen<br>Ausgang</td>
+  <td><?=$counter_rech;?></td>  
+</tr>
+<tr>
+  <td>Lieferanten</td>
+  <td><?=$counter_lief;?></td>
+</tr>
+<tr>  
+  <td>Rechnungen<br>Eingang</td>
+  <td><?=$counter_rech_ein;?></td>
 </tr>
 </tbody>
 </table>
-<h2>Ergebnis <?=$jr;?></h2>
-<table data-role="table" class="ui-responsive table-stroke">
-<thead>
-<th>&nbsp;</th>
-<th>Euro</th>
-</thead>
+</div>
+<div class="table">
+<p class="header">Ergebnis <?=$jr;?></p>
+<table>
 <tbody>
 <tr>
-  <td style="background-color:yellow">Einnahmen</td>
-  <td style="background-color:yellow"><?=number_format($gesamt_einnahmen,2);?></td>
+  <td>Einnahmen</td>
+  <td><?=number_format($gesamt_einnahmen,2);?>&nbsp;&euro;</td>
 </tr>
 <tr>    
-  <td style="background-color:lightgrey">- Ausgaben</td>
-  <td style="background-color:lightgrey"><?=number_format($gesamt_ausgaben,2);?></td>  
+  <td>- Ausgaben</td>
+  <td><?=number_format($gesamt_ausgaben,2);?>&nbsp;&euro;</td>  
 </tr>
 <tr>
-<td><b>= Ergebnis</b></td>
-<td><b><?=number_format($ergebnis,2);?></b></td>
+<td>= Ergebnis</td>
+<td><?=number_format($ergebnis,2);?>&nbsp;&euro;</td>
 </tr>
 </tbody>
 </table>
+</div>
+
 </body>
 </html>

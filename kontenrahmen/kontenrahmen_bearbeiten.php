@@ -7,14 +7,11 @@
 <meta name="description" content="Mein CRM">
 <meta name="robots" content="index,follow">
 <title>Firma: Mein CRM - Kontenrahmen</title>
-<!-- jquery mobile -->
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
 <?php
-include("menu.php");
+include("../include/menu.php");
 require_once("../include/config.inc.php");
 
 $action="";
@@ -104,17 +101,25 @@ if ($action=="d" && $id_konto!=0){
    exit;
 }
 ?>
-<h1>Kontenrahmen bearbeiten</h1>
+<div class="table">
+<p class="header">Kontenrahmen bearbeiten</p>
 <?=$msg;?>
 <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
     <input type="hidden" name="action" value="<?=$action;?>">
     <input type="hidden" name="id" value="<?=$id_konto;?>">
-    <label for="konto_nr">Konto-Nr</label>
-    <input type="text" name="konto_nr" data-clear-btn="true" maxlength="11" value="<?=$konto_nr;?>">
-    <label for="bez">Bezeichnung</label>
-    <input type="text" name="bez" data-clear-btn="true" maxlength="250" value="<?=$bez;?>">
-    <label for="typ">Typ</label>
-    <select name="typ">
+	<table>
+	<tbody>
+    <tr>
+	<td><b for="konto_nr">Konto-Nr</b></td>
+    <td><input type="text" name="konto_nr" maxlength="11" value="<?=$konto_nr;?>"></td>
+	</tr>
+	<tr>
+    <td><b for="bez">Bezeichnung</b></td>
+    <td><input type="text" name="bez" maxlength="250" value="<?=$bez;?>"></td>
+	</tr>
+	<tr>
+    <td><b for="typ">Typ</b></td>
+    <td><select name="typ">
         <option value="">---</option>
         <?php
         if($typ=="A") {
@@ -136,11 +141,17 @@ if ($action=="d" && $id_konto!=0){
         	<?php
         }
         ?>
-    </select>
-    <label for="zeile_nr">Zeilennummer (EÜR-Formular)</label>
-    <input type="number" step="1" name="zeile_nr" data-clear-btn="true" value="<?=$zeile_nr;?>">
-    <input type="submit" name="submit" value="Speichern">
+    </select></td>
+	</tr>
+	<tr>
+    <td><b for="zeile_nr">Zeilennummer (EÜR-Formular)</b></td>
+    <td><input type="number" step="1" name="zeile_nr" value="<?=$zeile_nr;?>"></td>
+	</tr>
+	</tbody>
+	</table>
+    <input class="btn" type="submit" name="submit" value="Speichern">
 </form>
+</div>
 <?php
 $mysqli -> close();
 ?>

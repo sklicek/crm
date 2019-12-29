@@ -7,24 +7,20 @@
 <meta name="description" content="Mein CRM">
 <meta name="robots" content="index,follow">
 <title>Firma: Mein CRM - Kontenrahmen</title>
-<!-- jquery mobile -->
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
 <?php
-include("menu.php");
+include("../include/menu.php");
 @require_once("../include/config.inc.php");
 ?>
-<h1>Kontenrahmen</h1>
-<div class="ui-block-a">
-  <a href="kontenrahmen_bearbeiten.php?action=n" data-role="button" data-icon="plus">Neues Konto</a><br/>
-</div>
-<table data-role="table" class="ui-responsive table-stroke">
+<div class="table">
+<p class="header">Kontenrahmen
+  <a class="btn" href="kontenrahmen_bearbeiten.php?action=n">Neues Konto</a>
+</p>
+<table>
   <thead>
     <tr>
-     <th>ID</th>
      <th>Konto-Nr</th>
      <th>Bezeichnung</th>
      <th>Zeile-Nr (EÜR)</th>
@@ -42,12 +38,14 @@ if ($stmt2 = $mysqli -> prepare("SELECT id_konto, konto_nr, bezeichnung, typ, ze
     $counter++;
     ?>
     <tr>
-    <td><a href="kontenrahmen_bearbeiten.php?id=<?=$id;?>&action=e"><?=$id;?></a></td>
     <td><?=$konto_nr;?></td>
     <td><?=$bez;?></td>
     <td><?=$zeile_nr;?></td>
     <td><?=$typ;?></td>
-    <td><a onclick="return confirm('Definitif löschen ?');" href="kontenrahmen_bearbeiten.php?id=<?=$id;?>&action=d" data-role="button" data-mini="true">Löschen</a></td>
+    <td>
+		<a class="btn" href="kontenrahmen_bearbeiten.php?id=<?=$id;?>&action=e">Bearbeiten</a>
+		<a class="btn" onclick="return confirm('Definitif löschen ?');" href="kontenrahmen_bearbeiten.php?id=<?=$id;?>&action=d">Löschen</a>
+	</td>
     </tr>
     <?php	
   }
@@ -60,5 +58,6 @@ $mysqli->close();
 </tr>
 </tbody>
 </table>
+</div>
 </body>
 </html>

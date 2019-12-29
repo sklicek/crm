@@ -7,29 +7,26 @@
 <meta name="description" content="Mein CRM">
 <meta name="robots" content="index,follow">
 <title>Firma: Mein CRM - Kunden</title>
-<!-- jquery mobile -->
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
 <?php
-include("menu.php");
+include("../include/menu.php");
 @require_once("../include/config.inc.php");
 ?>
-<h1>Lieferantenstamm</h1>
-<div class="ui-block-a">
-  <a href="lieferanten_bearbeiten.php?action=n" data-role="button" data-icon="plus">Neuer Lieferant</a><br/>
-</div>
-<table data-role="table" class="ui-responsive table-stroke">
+<div class="table">
+<p class="header">Lieferantenstamm
+  <a class="btn" href="lieferanten_bearbeiten.php?action=n">Lieferant anlegen</a>
+</p>
+<table>
   <thead>
     <tr>
-     <th>ID</th>
      <th>Firma</th>
      <th>Person</th>
      <th>Strasse</th>
      <th>PLZ/Ort</th>
      <th>Land</th>
+	 <th>Aktion</th>
     </tr>	
   </thead>
   <tbody>
@@ -42,12 +39,12 @@ if ($stmt2 = $mysqli -> prepare("SELECT kunde_id, firma, person, strasse, plz, o
     $counter++;
     ?>
     <tr>
-    <td><a href="lieferanten_bearbeiten.php?id=<?=$id;?>&action=e"><?=$id;?></a></td>
     <td><?=$firma;?></td>
     <td><?=$name;?></td>
     <td><?=$strasse;?></td>
     <td><?=$plz.' '.$ort;?></td>
     <td><?=$land_code;?></td>
+	<td><a class="btn" href="lieferanten_bearbeiten.php?id=<?=$id;?>&action=e">Bearbeiten</a></td>
     </tr>
     <?php	
   }
@@ -55,10 +52,8 @@ if ($stmt2 = $mysqli -> prepare("SELECT kunde_id, firma, person, strasse, plz, o
 $stmt2->close();
 $mysqli->close();
 ?>
-<tr>
- <td colspan="6" style="background-color:lightgrey">Anzahl: <?=$counter;?></td>
-</tr>
 </tbody>
 </table>
+</div>
 </body>
 </html>

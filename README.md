@@ -15,11 +15,8 @@ Funktionen:
 
 Die Datei include/config.inc.php muss angepasst werden mit den Zugangsdaten für MySQL.
 Ein Unterverzeichnis uploads muss erstellt werden im Hauptverzeichnis der Webanwendung (hier: firma)
-
-firma
-  | - uploads
-      | - rechnungen
-      | - rechnungen_eingang
+- firma / uploads / rechnungen
+- firma / uploads / rechnungen_eingang
 
 Getestet mit folgenden Systemvoraussetzungen:
 - Apache 2.4 (Webserver)

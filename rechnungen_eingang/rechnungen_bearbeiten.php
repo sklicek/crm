@@ -7,14 +7,11 @@
 <meta name="description" content="Rechnungen">
 <meta name="robots" content="index,follow">
 <title>Eingangsrechnungen</title>
-<!-- jquery mobile -->
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
 <?php
-include("menu.php");
+include("../include/menu.php");
 require_once("../include/config.inc.php");
 
 $action="";
@@ -98,23 +95,37 @@ if ($action=="e" && $id_rechnung!=0){
     if ($dat_bez!="") $dat_bez=date("Y-m-d",strtotime($dat_bez));
 }
 ?>
-<h1>Eingangsrechnungen bearbeiten</h1>
+<div class="table">
+<p class="header">Eingangsrechnungen bearbeiten</p>
 <?=$msg;?>
 <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
     <input type="hidden" name="action" value="<?=$action;?>">
     <input type="hidden" name="id" value="<?=$id_rechnung;?>">
-    <label for="nr">Rechnung-Nr</label>
-    <input type="text" name="nr" data-clear-btn="true" maxlength="25" value="<?=$nr;?>">
-    <label for="dat">Rechnung-Datum</label>
-    <input type="date" name="dat" data-clear-btn="true" maxlength="15" value="<?=$dat;?>">
-    <label for="besch">Beschreibung</label>
-    <input type="text" name="besch" data-clear-btn="true" maxlength="250" value="<?=$besch;?>">
-    <label for="dat_leist">Leistung/Liefer-Datum</label>
-    <input type="date" name="dat_leist" data-clear-btn="true" maxlength="15" value="<?=$dat_leist;?>">
-    <label for="brutto">Brutto-Betrag</label>
-    <input type="number" step="0.01" name="brutto" data-clear-btn="true" value="<?=$brutto;?>">
-    <label for="konto">Konto</label>
-    <select name="konto">
+    <table>
+	<tbody>
+    <tr>
+	<td><b for="nr">Rechnung-Nr</b></td>
+    <td><input type="text" name="nr" maxlength="25" value="<?=$nr;?>"></td>
+	</tr>
+	<tr>
+    <td><b for="dat">Rechnung-Datum</b></td>
+    <td><input type="date" name="dat" maxlength="15" value="<?=$dat;?>"></td>
+	</tr>
+	<tr>
+    <td><b for="besch">Beschreibung</b></td>
+    <td><input type="text" name="besch" maxlength="250" value="<?=$besch;?>"></td>
+	</tr>
+	<tr>
+    <td><b for="dat_leist">Leistung/Liefer-Datum</b></td>
+	<td><input type="date" name="dat_leist" maxlength="15" value="<?=$dat_leist;?>"></td>
+	</tr>
+	<tr>
+    <td><b for="brutto">Brutto-Betrag</b></td>
+    <td><input type="number" step="0.01" name="brutto" value="<?=$brutto;?>"></td>
+	</tr>
+	<tr>
+    <td><b for="konto">Konto</b></td>
+    <td><select name="konto">
         <option value="">---</option>
         <?php
         if ($stmt2 = $mysqli -> prepare("SELECT id_konto, konto_nr, bezeichnung FROM kontenrahmen ORDER BY konto_nr ASC")) {
@@ -134,9 +145,11 @@ if ($action=="e" && $id_rechnung!=0){
             $stmt2 -> close();
         }
         ?>
-    </select>
-    <label for="kunde">Lieferant</label>
-    <select name="kunde">
+    </select></td>
+	</tr>
+	<tr>
+    <td><b for="kunde">Lieferant</b></td>
+    <td><select name="kunde">
         <option value="">---</option>
         <?php
         if ($stmt2 = $mysqli -> prepare("SELECT kunde_id, firma FROM kunden WHERE typ='L' ORDER BY firma")) {
@@ -156,11 +169,17 @@ if ($action=="e" && $id_rechnung!=0){
             $stmt2 -> close();
         }
         ?>
-    </select>
-    <label for="dat_bez">Bezahl-Datum</label>
-    <input type="date" name="dat_bez" data-clear-btn="true" maxlength="15" value="<?=$dat_bez;?>">
-    <input type="submit" name="submit" value="Speichern">
+    </select></td>
+	</tr>
+	<tr>
+    <td><b for="dat_bez">Bezahl-Datum</b></td>
+    <td><input type="date" name="dat_bez" maxlength="15" value="<?=$dat_bez;?>"></td>
+    </tr>
+	</tbody>
+	</table>
+	<input class="btn" type="submit" name="submit" value="Speichern">
 </form>
+</div>
 <?php
 $mysqli -> close();
 ?>

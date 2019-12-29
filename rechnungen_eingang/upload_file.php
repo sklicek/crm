@@ -7,14 +7,11 @@
 <meta name="description" content="Rechnungen">
 <meta name="robots" content="index,follow">
 <title>Eingangsrechnungen</title>
-<!-- jquery mobile -->
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
 <?php
-include("menu.php");
+include("../include/menu.php");
 @require_once("../include/config.inc.php");
 
 $id_rechnung=0;
@@ -27,12 +24,14 @@ if (isset($_GET["nr"])){
 	$nr=$_GET["nr"];
 }
 ?>
-<h1>Eingangsrechnungen</h1>
-PDF-Datei zur Dokumentennummer: <?=$nr;?>
+<div class="table">
+<p class="header">Eingangsrechnungen</p>
+<p><b>PDF-Datei zur Dokumentennummer: </b><?=$nr;?></p>
 <form data-ajax="false" name="upload_form" action="save_file.php" method="post" enctype="multipart/form-data">
     <input type="hidden" name="id_rechnung" id="id_rechnung" value="<?=$id_rechnung;?>">
     <input type="file" name="file" id="fileupload" accept="application/pdf">
-	<input type="submit" name="submit" id="submit" value="upload">
+	<input class="btn" type="submit" name="submit" id="submit" value="upload">
 </form>
+</div>
 </body>
 </html>

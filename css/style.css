@@ -1,0 +1,109 @@
+/* navbar */
+body {margin: 0;}
+
+ul.topnav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: lightgrey;
+}
+
+ul.topnav li {float: left;}
+
+ul.topnav li a {
+  display: block;
+  text-align: center;
+  padding: 1em;
+  text-decoration: none;
+}
+
+ul.topnav li a:hover {background-color: red;}
+
+ul.topnav li.right {float: right;}
+
+@media screen and (max-width: 600px) {
+  ul.topnav li.right, 
+  ul.topnav li {float: none;}
+}
+
+/* Navbar: Dropdown */
+li.dropdown {
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  /*min-width: 10em;*/
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 0.5em;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1;}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Tables */
+.table{
+	padding: 1em;
+	margin-top: 1em;
+}
+
+.table th {
+	padding: 0.5em;
+	text-align: left;
+}
+
+.table td {
+	padding: 0.5em;
+	text-align: left;	
+}
+
+.table select {
+	padding: 0.5em;
+}
+
+.table input {
+	padding: 0.5em;
+	width: 100%;
+}
+
+/* Header */
+.header{
+	background-color: lightgrey;
+	padding: 0.5em;
+}
+
+/* Link as a button */
+.btn {
+  background-color: #f44336;
+  color: white;
+  padding: 0.25em;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* Responsive */
+@media screen and (max-width: 600px) {
+  ul.navbar li.right, 
+  ul.navbar li {float: none;}
+}
+
+@media screen and (max-width: 600px) {
+  table {
+	  float: none;
+  }
+}

@@ -1,5 +1,5 @@
 # CRM für Kleinunternehmer/Freiberufler
-Einfaches CRM für Kleinunternehmer/Freiberufler in PHP und MySQL. Responsive Design (sich auf Displaygrösse anpassend) durch die Verwendung des Frameworks jQuery-mobile. 
+Einfaches CRM für Kleinunternehmer/Freiberufler in PHP und MySQL. Responsive Design. 
 
 Die Anwendung verwendet einen einfachen Kontenrahmen, den man auf eigene Bedürfnisse anpassen kann. Einfach zu verstehende Eingabedialoge ermöglichen die Erfassung von Belegen und die Änderung bzw. Erweiterung des Kontenrahmens.
 
@@ -14,6 +14,12 @@ Funktionen:
 - Diverse Auswertungen (Ein-/Ausgaben)
 
 Die Datei include/config.inc.php muss angepasst werden mit den Zugangsdaten für MySQL.
+Ein Unterverzeichnis uploads muss erstellt werden im Hauptverzeichnis der Webanwendung (hier: firma)
+
+firma
+  | - uploads
+      | - rechnungen
+      | - rechnungen_eingang
 
 Getestet mit folgenden Systemvoraussetzungen:
 - Apache 2.4 (Webserver)

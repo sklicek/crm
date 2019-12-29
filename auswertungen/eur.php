@@ -7,20 +7,18 @@
 <meta name="description" content="Mein CRM">
 <meta name="robots" content="index,follow">
 <title>Firma: Mein CRM</title>
-<!-- jquery mobile -->
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
 <?php
-include("menu.php");
+include("../include/menu.php");
 @require_once("../include/config.inc.php");
-?>
-<h1>Auswertungen</h1>
-<?php
-$jr=date("Y");
 
+$jr=date("Y");
+?>
+<div class="table">
+<p class="header">Einnahmenüberschussrechnung (EÜR) für einfachen Kontenrahmen - Kleinunternehmer (<?=$jr;?>)</p>
+<?php
 //Kontenrahmen holen
 $arr_kontenrahmen=array();
 $a=0;
@@ -71,21 +69,25 @@ if ($stmt2 = $mysqli -> prepare("SELECT konto_nr, bezeichnung, gesamt_bruttowert
      }
      $stmt2 -> close();
 }
-
 $ergebnis=$gesamt_einnahmen_konten-$gesamt_ausgaben_konten;
-
 $mysqli -> close();
 ?>
-<h2>Einnahmenüberschussrechnung</h2>
-<h3>EÜR für einfachen Kontenrahmen - Kleinunternehmer (<?=$jr;?>)</h3>
-
-<p>
-<b>Firma:</b><br><?=FIRMA_NAME;?><br>
-<b>Adresse:</b><br><?=FIRMA_ADRESSE;?><br><?=FIRMA_PLZ;?> <?=FIRMA_ORT;?><br>
-<b>Steuernummer:</b><br><?=FIRMA_STEUERNR;?>
-</p>
-
-<table data-role="table" class="ui-responsive table-stroke">
+<table>
+<tbody>
+<tr>
+<td><b>Firma:</b></td><td><?=FIRMA_NAME;?></td>
+</tr>
+<tr>
+<td><b>Adresse:</b></td><td><?=FIRMA_ADRESSE;?><br><?=FIRMA_PLZ;?> <?=FIRMA_ORT;?></td>
+</tr>
+<tr>
+<td><b>Steuernummer:</b></td><td><?=FIRMA_STEUERNR;?></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table">
+<table>
 <thead>
 <tr><th colspan="4" style="background-color: yellow;">Betriebseinnahmen</th></tr>
 <tr>
@@ -127,8 +129,21 @@ for ($i=0;$i<count($arr_kontenrahmen);$i++){
 <td><b>Summe Betriebseinnahmen</b></td>
 <td><b><?=number_format($gesamt_einnahmen_konten,2);?></b></td>
 </tr>
+</table>
+</div>
 
+<div class="table">
+<table>
+<thead>
 <tr><th colspan="4" style="background-color: lightgrey;">Betriebsausgaben</th></tr>
+<tr>
+<th>Zeile</th>
+<th>Konto-Nr</th>
+<th>Bezeichnung</th>
+<th>Brutto (Euro)</th>
+</tr>
+</thead>
+<tbody>
 <?php
 for ($i=0;$i<count($arr_kontenrahmen);$i++){
 	//Betriebsausgaben
@@ -153,16 +168,6 @@ for ($i=0;$i<count($arr_kontenrahmen);$i++){
 		<?php
 	}		
 }
-/*for($i=0;$i<count($arr_konten);$i++) {
-	?>
-	<tr>
-	<td></td>
-	<td><?=$arr_konten[$i][0];?></td>
-	<td><?=$arr_konten[$i][1];?></td>
-	<td><?=$arr_konten[$i][2];?></td>
-	</tr>
-	<?php
-}*/
 ?>
 <tr>
 <td>65</td>
@@ -170,26 +175,38 @@ for ($i=0;$i<count($arr_kontenrahmen);$i++){
 <td><b>Summe Betriebsausgaben</b></td>
 <td><b><?=number_format($gesamt_ausgaben_konten,2);?></b></td>
 </tr>
+</tbody>
+</table>
+</div>
+
+<div class="table">
+<table>
+<thead>
 <tr><th colspan="4" style="background-color: lightblue;">Gewinn/Verlust</th></tr>
 <tr>
+<th>Zeile</th>
+<th>Bezeichnung</th>
+<th>Brutto (Euro)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
 <td>89</td>
-<td></td>
 <td><b>Summe der Betriebseinnahmen (Übertrag aus Zeile 22)</b></td>
 <td><b><?=number_format($gesamt_einnahmen_konten,2);?></b></td>
 </tr>
 <tr>
 <td>90</td>
-<td></td>
 <td><b>abzüglich Summe der Betriebsausgaben (Übertrag aus Zeile 65)</b></td>
 <td><b><?=number_format($gesamt_ausgaben_konten,2);?></b></td>
 </tr>
 <tr>
 <td>109</td>
-<td></td>
 <td><b>Steuerpflichtiger Gewinn/Verlust</b></td>
 <td><b><?=number_format($ergebnis,2);?></b></td>
 </tr>
 </tbody>
 </table>
+</div>
 </body>
 </html>

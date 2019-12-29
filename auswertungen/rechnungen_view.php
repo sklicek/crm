@@ -7,14 +7,11 @@
 <meta name="description" content="Rechnungen">
 <meta name="robots" content="index,follow">
 <title>Ausgangsrechnungen</title>
-<!-- jquery mobile -->
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
 <?php
-include("menu.php");
+include("../include/menu.php");
 @require_once("../include/config.inc.php");
 
 $arr_jahre=array();
@@ -29,8 +26,9 @@ $stmt2 -> close();
 ?>
 <h2>Jahresübersicht (Ausgangsrechnungen)</h2>
 
+<div class="table">
 <center><h3>Bezahlt</h3></center>
-<table data-role="table" class="ui-responsive table-stroke">
+<table>
   <thead>
     <tr>
      <th>Kunde</th>
@@ -77,9 +75,11 @@ for ($i=0;$i<count($arr_jahre);$i++){
 </tr>
 </tbody>
 </table>
+</div>
 
+<div class="table">
 <center><h3>Offen (nicht bezahlt)</h3></center>
-<table data-role="table" class="ui-responsive table-stroke">
+<table>
   <thead>
     <tr>
      <th>Kunde</th>
@@ -126,6 +126,7 @@ for ($i=0;$i<count($arr_jahre);$i++){
 </tr>
 </tbody>
 </table>
+</div>
 <?php
 $mysqli->close();
 ?>

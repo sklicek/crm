@@ -7,14 +7,11 @@
 <meta name="description" content="Mein CRM">
 <meta name="robots" content="index,follow">
 <title>Firma: Mein CRM - Kunden</title>
-<!-- jquery mobile -->
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
 <?php
-include("menu.php");
+include("../include/menu.php");
 require_once("../include/config.inc.php");
 
 $action="";
@@ -78,28 +75,45 @@ if ($action=="e" && $id_kunde!=0){
     }
 }
 ?>
-<h1>Kundenstamm</h1>
-<h2>Kunde bearbeiten</h2>
+<div class="table">
+<p class="header">Kunde bearbeiten</p>
 <?=$msg;?>
 <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
-    <input type="hidden" name="action" value="<?=$action;?>">
+	<input type="hidden" name="action" value="<?=$action;?>">
     <input type="hidden" name="id" value="<?=$id_kunde;?>">
-    <label for="firma">Firma</label>
-    <input type="text" name="firma" data-clear-btn="true" maxlength="150" value="<?=$firma;?>">
-    <label for="person">Person</label>
-    <input type="text" name="person" data-clear-btn="true" maxlength="250" value="<?=$person;?>">
-    <label for="strasse">Strasse, Hausnr</label>
-    <input type="text" name="strasse" data-clear-btn="true" maxlength="250" value="<?=$strasse;?>">
-    <label for="plz">PLZ</label>
-    <input type="text" name="plz" data-clear-btn="true" maxlength="10" value="<?=$plz;?>">
-    <label for="ort">Ort</label>
-    <input type="text" name="ort" data-clear-btn="true" maxlength="150" value="<?=$ort;?>">
-    <label for="email">E-Mail</label>
-    <input type="text" name="email" data-clear-btn="true" maxlength="250" value="<?=$email;?>">
-    <label for="ust_idnr">UST-IDNr</label>
-    <input type="text" name="ust_idnr" data-clear-btn="true" maxlength="50" value="<?=$ust_idnr;?>">
-    <label for="land_code">Land</label>
-    <select name="land_code">
+    <table>
+	<tbody>
+	<tr>
+	<td><b for ="firma">Firma</b></td>
+    <td><input type="text" name="firma" maxlength="150" value="<?=$firma;?>"></td>
+	</tr>
+	<tr>
+    <td><b for="person">Person</b></td>
+    <td><input type="text" name="person" maxlength="250" value="<?=$person;?>"></td>
+	</tr>
+	<tr>
+	<td><b for="strasse">Strasse, Hausnr</b></td>
+    <td><input type="text" name="strasse" maxlength="250" value="<?=$strasse;?>"></td>
+	</tr>
+    <tr>
+	<td><b for="plz">PLZ</b></td>
+    <td><input type="text" name="plz" maxlength="10" value="<?=$plz;?>"></td>
+	</tr>
+	<tr>
+    <td><b for="ort">Ort</b></td>
+    <td><input type="text" name="ort" maxlength="150" value="<?=$ort;?>"></td>
+	</tr>
+	<tr>
+    <td><b for="email">E-Mail</b></td>
+    <td><input type="text" name="email" maxlength="250" value="<?=$email;?>"></td>
+	</tr>
+	<tr>
+    <td><b for="ust_idnr">UST-IDNr</b></td>
+    <td><input type="text" name="ust_idnr" maxlength="50" value="<?=$ust_idnr;?>"></td>
+	</tr>
+	<tr>
+    <td><b for="land_code">Land</b></td>
+    <td><select name="land_code">
         <option value="">---</option>
         <?php
         if ($stmt2 = $mysqli -> prepare("SELECT Code, `Name` FROM country ORDER BY `Name`")) {
@@ -119,9 +133,13 @@ if ($action=="e" && $id_kunde!=0){
             $stmt2 -> close();
         }
         ?>
-    </select>
-    <input type="submit" name="submit" value="Speichern">
+    </select></td>
+	</tr>
+	</tbody>
+	</table>
+	<input class="btn" type="submit" name="submit" value="Speichern">
 </form>
+</div>
 <?php
 $mysqli -> close();
 ?>

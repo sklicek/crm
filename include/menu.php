@@ -6,8 +6,8 @@ session_start();
 <li class="dropdown">
   <a href="javascript:void(0)" class="dropbtn">Kontakte</a>
   <div class="dropdown-content">
-    <a href="<?=$_SESSION['root_path'];?>/kunden/kunden.php">Kunden</a>
-    <a href="<?=$_SESSION['root_path'];?>/lieferanten/lieferanten.php">Lieferanten</a>
+    <a href="<?=$_SESSION['root_path'];?>/kunden/kunden.php?typ=K">Kunden</a>
+    <a href="<?=$_SESSION['root_path'];?>/kunden/kunden.php?typ=L">Lieferanten</a>
   </div>
 </li>
 <li class="dropdown">

@@ -65,6 +65,13 @@ if (isset($_POST['submit'])){
             $stmt2 -> close();
         }
     }
+	?>
+    <script>
+	alert('<?=$msg;?>');
+    window.location.href="rechnungen.php";
+    </script>
+    <?php
+    exit;
 }
 
 //daten auslesen
@@ -81,7 +88,6 @@ if ($action=="e" && $id_kunde!=0){
 ?>
 <div class="table">
 <p class="header">Unternehmensdaten bearbeiten</p>
-<?=$msg;?>
 <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
 	<input type="hidden" name="action" value="<?=$action;?>">
     <input type="hidden" name="id" value="<?=$id_kunde;?>">

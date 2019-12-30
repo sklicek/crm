@@ -38,7 +38,7 @@ if (isset($_GET['typ']) && $_GET['typ']!=""){
   <tbody>
 <?php
 if ($stmt2 = $mysqli -> prepare("SELECT kunde_id, firma, person, strasse, plz, ort, land_code FROM kunden WHERE typ=? ORDER BY kunde_id")) {
-  $stmt2 -> bind_param($typ);
+  $stmt2 -> bind_param('s',$typ);
   $stmt2 -> execute();
   $stmt2 -> bind_result($id, $firma, $name, $strasse, $plz, $ort, $land_code);
   while ($stmt2 -> fetch()){

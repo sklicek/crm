@@ -6,12 +6,11 @@ Die Anwendung verwendet einen einfachen Kontenrahmen, den man auf eigene Bedürf
 Die Anwendung kann selbst gehostet werden.
 
 Funktionen:
-- Verwalten der Kunden
-- Verwalten der Lieferanten
+- Verwalten der Kontakte (Kunden, Lieferanten)
 - Verwalten der Ein- und Ausgangsrechnungen
-- Verwalten des Kontenrahmens
+- Verwalten des Kontenrahmens für die EÜR
 - Dashboard
-- Diverse Auswertungen (Ein-/Ausgaben)
+- Diverse Auswertungen (Ein-/Ausgaben/EÜR)
 
 Die Datei include/config.inc.php muss angepasst werden mit den Zugangsdaten für MySQL.
 

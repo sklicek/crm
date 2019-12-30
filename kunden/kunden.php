@@ -6,17 +6,23 @@
 <meta name="author" content="Steve Klicek" >
 <meta name="description" content="Mein CRM">
 <meta name="robots" content="index,follow">
-<title>Firma: Mein CRM - Kunden</title>
+<title>Firma: Mein CRM - Kontakte</title>
 <link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
 <?php
 include("../include/menu.php");
 @require_once("../include/config.inc.php");
+
+$typ="K";
+if (isset($_GET['typ']) && $_GET['typ']!=""){
+	$typ=htmlspecialchars($_GET['typ']);
+}
 ?>
 <div class="table">
-<p class="header">Kundenstamm
-  <a class="btn" href="kunden_bearbeiten.php?action=n">Kunde anlegen</a>
+<p class="header">Kontakte
+  <a class="btn" href="kunden_bearbeiten.php?action=n&typ=K">Kunde anlegen</a>
+  <a class="btn" href="kunden_bearbeiten.php?action=n&typ=L">Lieferant anlegen</a>
 </p>
 <table>
   <thead>
@@ -31,7 +37,8 @@ include("../include/menu.php");
   </thead>
   <tbody>
 <?php
-if ($stmt2 = $mysqli -> prepare("SELECT kunde_id, firma, person, strasse, plz, ort, land_code FROM kunden WHERE typ='K' ORDER BY kunde_id")) {
+if ($stmt2 = $mysqli -> prepare("SELECT kunde_id, firma, person, strasse, plz, ort, land_code FROM kunden WHERE typ=? ORDER BY kunde_id")) {
+  $stmt2 -> bind_param($typ);
   $stmt2 -> execute();
   $stmt2 -> bind_result($id, $firma, $name, $strasse, $plz, $ort, $land_code);
   while ($stmt2 -> fetch()){

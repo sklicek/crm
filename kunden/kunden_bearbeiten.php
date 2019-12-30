@@ -41,9 +41,11 @@ if (isset($_POST['submit'])){
     $land_code=htmlspecialchars($_POST['land_code']);
     $festnetz=htmlspecialchars($_POST['festnetz']);
     $mobil=htmlspecialchars($_POST['mobil']);
+	$typ=htmlspecialchars($_POST['typ']);
+	
     if ($action=="n"){
-        if ($stmt2 = $mysqli -> prepare("INSERT INTO kunden (firma, person, strasse, plz, ort, email, ust_idnr, land_code, festnetz, mobil) VALUES (?,?,?,?,?,?,?,?,?,?)")) {
-            $stmt2 -> bind_param("ssssssssss",$firma,$person,$strasse,$plz,$ort,$email,$ust_idnr,$land_code,$festnetz,$mobil);
+        if ($stmt2 = $mysqli -> prepare("INSERT INTO kunden (firma, person, strasse, plz, ort, email, ust_idnr, land_code, festnetz, mobil,typ) VALUES (?,?,?,?,?,?,?,?,?,?,?)")) {
+            $stmt2 -> bind_param("sssssssssss",$firma,$person,$strasse,$plz,$ort,$email,$ust_idnr,$land_code,$festnetz,$mobil,$typ);
             if ($stmt2 -> execute()){
                 $msg="Daten erfolgreich gespeichert.";
             } else {
@@ -52,8 +54,8 @@ if (isset($_POST['submit'])){
             $stmt2 -> close();
         }
     } elseif ($action=="e"){
-        if ($stmt2 = $mysqli -> prepare("UPDATE kunden SET firma = ?, person = ?, strasse = ?, plz = ?, ort = ?, email = ?, ust_idnr = ?, land_code = ?, festnetz = ?, mobil = ? WHERE kunde_id = ?")) {
-            $stmt2 -> bind_param("ssssssssssi",$firma,$person,$strasse,$plz,$ort,$email,$ust_idnr,$land_code,$festnetz,$mobil,$id_kunde);
+        if ($stmt2 = $mysqli -> prepare("UPDATE kunden SET firma = ?, person = ?, strasse = ?, plz = ?, ort = ?, email = ?, ust_idnr = ?, land_code = ?, festnetz = ?, mobil = ?, typ = ? WHERE kunde_id = ?")) {
+            $stmt2 -> bind_param("sssssssssssi",$firma,$person,$strasse,$plz,$ort,$email,$ust_idnr,$land_code,$festnetz,$mobil,$typ,$id_kunde);
             if ($stmt2 -> execute()){
                 $msg="Daten erfolgreich gespeichert.";
             } else {
@@ -65,12 +67,12 @@ if (isset($_POST['submit'])){
 }
 
 //daten auslesen
-$firma=$person=$strasse=$plz=$ort=$email=$ust_idnr=$land_code=$festnetz=$mobil="";
+$firma=$person=$strasse=$plz=$ort=$email=$ust_idnr=$land_code=$festnetz=$mobil=$typ="";
 if ($action=="e" && $id_kunde!=0){
-    if ($stmt2 = $mysqli -> prepare("SELECT firma, person, strasse, plz, ort, email, ust_idnr, land_code, festnetz, mobil FROM kunden WHERE kunde_id = ?")) {
+    if ($stmt2 = $mysqli -> prepare("SELECT firma, person, strasse, plz, ort, email, ust_idnr, land_code, festnetz, mobil, typ FROM kunden WHERE kunde_id = ?")) {
         $stmt2 -> bind_param('i',$id_kunde);
         $stmt2 -> execute();
-        $stmt2 -> bind_result($firma,$person,$strasse,$plz,$ort,$email,$ust_idnr,$land_code,$festnetz,$mobil);
+        $stmt2 -> bind_result($firma,$person,$strasse,$plz,$ort,$email,$ust_idnr,$land_code,$festnetz,$mobil,$typ);
         $stmt2 -> fetch();
         $stmt2 -> close();
     }
@@ -84,6 +86,32 @@ if ($action=="e" && $id_kunde!=0){
     <input type="hidden" name="id" value="<?=$id_kunde;?>">
     <table>
 	<tbody>
+	<tr>
+    <td><b for="typ">Kontakt-Typ</b></td>
+    <td><select name="typ">
+        <option value="">---</option>
+        <?php
+        if ($typ=="K"){
+            ?>
+            <option value="K" selected>Kunde</option>
+            <?php
+        } else {
+            ?>
+            <option value="K">Kunde</option>
+            <?php
+        }
+		if ($typ=="L"){
+            ?>
+            <option value="L" selected>Lieferant</option>
+            <?php
+        } else {
+            ?>
+            <option value="L">Lieferant</option>
+            <?php
+        }
+        ?>
+    </select></td>
+	</tr>
 	<tr>
 	<td><b for ="firma">Firma</b></td>
     <td><input type="text" name="firma" maxlength="150" value="<?=$firma;?>"></td>

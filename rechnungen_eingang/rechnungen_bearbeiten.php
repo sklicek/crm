@@ -63,7 +63,7 @@ if (isset($_POST['submit'])){
     }
 	?>
     <script>
-	alert(<?=$msg;?>);
+	alert('<?=$msg;?>');
     window.location.href="rechnungen.php";
     </script>
     <?php

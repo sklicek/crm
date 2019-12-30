@@ -11,10 +11,14 @@
 </head>
 <body>
 <?php
+session_start();
 include("../include/menu.php");
 @require_once("../include/config.inc.php");
 
 $jr=date("Y");
+if (isset($_SESSION['kal_jahr'])){
+	$jr=$_SESSION['kal_jahr'];
+}
 ?>
 <div class="table">
 <p class="header">Einnahmenüberschussrechnung (EÜR) für einfachen Kontenrahmen - Kleinunternehmer (<?=$jr;?>)</p>

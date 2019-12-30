@@ -70,18 +70,26 @@ if ($stmt2 = $mysqli -> prepare("SELECT konto_nr, bezeichnung, gesamt_bruttowert
      $stmt2 -> close();
 }
 $ergebnis=$gesamt_einnahmen_konten-$gesamt_ausgaben_konten;
+
+$firma_name=$firma_adr=$firma_plz=$firma_ort=$firma_steuernr="";
+if ($stmt2 = $mysqli -> prepare("SELECT kunde_id, firma, strasse, plz, ort, steuer_nr FROM kunden WHERE typ='F'")) {
+  $stmt2 -> execute();
+  $stmt2 -> bind_result($id, $firma_name, $firma_adr, $firma_plz, $firma_ort, $firma_steuernr);
+  $stmt2 -> fetch();
+  $stmt2 -> close();
+}
 $mysqli -> close();
 ?>
 <table>
 <tbody>
 <tr>
-<td><b>Firma:</b></td><td><?=FIRMA_NAME;?></td>
+<td><b>Firma:</b></td><td><?=$firma_name;?></td>
 </tr>
 <tr>
-<td><b>Adresse:</b></td><td><?=FIRMA_ADRESSE;?><br><?=FIRMA_PLZ;?> <?=FIRMA_ORT;?></td>
+<td><b>Adresse:</b></td><td><?=$firma_adr;?><br><?=$firma_plz;?> <?=$firma_ort;?></td>
 </tr>
 <tr>
-<td><b>Steuernummer:</b></td><td><?=FIRMA_STEUERNR;?></td>
+<td><b>Steuernummer:</b></td><td><?=$firma_steuernr;?></td>
 </tr>
 </tbody>
 </table>

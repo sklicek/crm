@@ -14,8 +14,6 @@
 include("../include/menu.php");
 @require_once("../include/config.inc.php");
 
-//NOCH BEARBEITEN
-
 $arr_jahre=array();
 if ($stmt2 = $mysqli -> prepare("SELECT DISTINCT rechnung_datum FROM krechnungen_eingang ORDER BY rechnung_datum DESC")) {
   $stmt2 -> execute();
@@ -44,7 +42,7 @@ $jahresgesamt=0;
 for ($i=0;$i<count($arr_jahre);$i++){
 	$jr=$arr_jahre[$i];
 	$brutto_jahr=0;
-	if ($stmt2 = $mysqli -> prepare("SELECT firma, rechnung_datum, bruttowert FROM krechnungen_eingang WHERE rechnung_datum = ? ORDER BY rechnung_datum DESC, firma ASC")) {
+	if ($stmt2 = $mysqli -> prepare("SELECT firma, rechnung_datum, bruttowert FROM krechnungen_eingang WHERE rechnung_datum = ? ORDER BY firma ASC, rechnung_datum DESC")) {
 	  $stmt2 -> bind_param('i',$jr);
 	  $stmt2 -> execute();
 	  $stmt2 -> bind_result($kunde, $jahr, $brutto);

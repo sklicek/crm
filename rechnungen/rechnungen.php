@@ -17,8 +17,9 @@ include("../include/menu.php");
 <div class="table">
 <p class="header">Ausgangsrechnungen
   <a class="btn" href="rechnungen_bearbeiten.php?action=n">Neue Rechnung</a>
+  <a class="btn" onclick="fnExcelReport('tabelle');">Export (XLS)</a>
 </p>
-<table>
+<table id="tabelle">
   <thead>
     <tr>
      <th>Nr</th>
@@ -81,5 +82,6 @@ $mysqli->close();
 </tbody>
 </table>
 </div>
+<script src="../js/funktionen.js"></script>
 </body>
 </html>

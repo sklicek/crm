@@ -21,7 +21,9 @@ if (isset($_SESSION['kal_jahr'])){
 }
 ?>
 <div class="table">
-<p class="header">Einnahmenüberschussrechnung (EÜR) für einfachen Kontenrahmen - Kleinunternehmer (<?=$jr;?>)</p>
+<p class="header">Einnahmenüberschussrechnung (EÜR) für einfachen Kontenrahmen - Kleinunternehmer (<?=$jr;?>)
+	<a class="btn" onclick="fnExcelReport('tabelle');">Export (XLS)</a>
+</p>
 <?php
 //Kontenrahmen holen
 $arr_kontenrahmen=array();
@@ -99,7 +101,7 @@ $mysqli -> close();
 </table>
 </div>
 <div class="table">
-<table>
+<table id="tabelle">
 <thead>
 <tr><th colspan="4" style="background-color: yellow;">Betriebseinnahmen</th></tr>
 <tr>
@@ -141,21 +143,7 @@ for ($i=0;$i<count($arr_kontenrahmen);$i++){
 <td><b>Summe Betriebseinnahmen</b></td>
 <td><b><?=number_format($gesamt_einnahmen_konten,2);?></b></td>
 </tr>
-</table>
-</div>
-
-<div class="table">
-<table>
-<thead>
 <tr><th colspan="4" style="background-color: lightgrey;">Betriebsausgaben</th></tr>
-<tr>
-<th>Zeile</th>
-<th>Konto-Nr</th>
-<th>Bezeichnung</th>
-<th>Brutto (Euro)</th>
-</tr>
-</thead>
-<tbody>
 <?php
 for ($i=0;$i<count($arr_kontenrahmen);$i++){
 	//Betriebsausgaben
@@ -187,38 +175,28 @@ for ($i=0;$i<count($arr_kontenrahmen);$i++){
 <td><b>Summe Betriebsausgaben</b></td>
 <td><b><?=number_format($gesamt_ausgaben_konten,2);?></b></td>
 </tr>
-</tbody>
-</table>
-</div>
-
-<div class="table">
-<table>
-<thead>
 <tr><th colspan="4" style="background-color: lightblue;">Gewinn/Verlust</th></tr>
 <tr>
-<th>Zeile</th>
-<th>Bezeichnung</th>
-<th>Brutto (Euro)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
 <td>89</td>
+<td></td>
 <td><b>Summe der Betriebseinnahmen (Übertrag aus Zeile 22)</b></td>
 <td><b><?=number_format($gesamt_einnahmen_konten,2);?></b></td>
 </tr>
 <tr>
 <td>90</td>
+<td></td>
 <td><b>abzüglich Summe der Betriebsausgaben (Übertrag aus Zeile 65)</b></td>
 <td><b><?=number_format($gesamt_ausgaben_konten,2);?></b></td>
 </tr>
 <tr>
 <td>109</td>
+<td></td>
 <td><b>Steuerpflichtiger Gewinn/Verlust</b></td>
 <td><b><?=number_format($ergebnis,2);?></b></td>
 </tr>
 </tbody>
 </table>
 </div>
+<script src="../js/funktionen.js"></script>
 </body>
 </html>

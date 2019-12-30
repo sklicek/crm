@@ -37,10 +37,10 @@ if (isset($_GET['typ']) && $_GET['typ']!=""){
   </thead>
   <tbody>
 <?php
-if ($stmt2 = $mysqli -> prepare("SELECT kunde_id, firma, person, strasse, plz, ort, land_code FROM kunden WHERE typ=? ORDER BY kunde_id")) {
+if ($stmt2 = $mysqli -> prepare("SELECT kunde_id, firma, person, strasse, plz, ort, land_code, typ FROM kunden WHERE typ=? ORDER BY kunde_id")) {
   $stmt2 -> bind_param('s',$typ);
   $stmt2 -> execute();
-  $stmt2 -> bind_result($id, $firma, $name, $strasse, $plz, $ort, $land_code);
+  $stmt2 -> bind_result($id, $firma, $name, $strasse, $plz, $ort, $land_code,$typ);
   while ($stmt2 -> fetch()){
     ?>
     <tr>
@@ -49,7 +49,7 @@ if ($stmt2 = $mysqli -> prepare("SELECT kunde_id, firma, person, strasse, plz, o
     <td><?=$strasse;?></td>
     <td><?=$plz.' '.$ort;?></td>
     <td><?=$land_code;?></td>
-	<td><a class="btn" href="kunden_bearbeiten.php?id=<?=$id;?>&action=e">Bearbeiten</a></td>
+	<td><a class="btn" href="kunden_bearbeiten.php?id=<?=$id;?>&typ=<?=$typ;?>&action=e">Bearbeiten</a></td>
     </tr>
     <?php	
   }

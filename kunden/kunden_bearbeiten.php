@@ -28,6 +28,11 @@ if (isset($_GET['id'])){
     $id_kunde=$_POST['id'];
 }
 
+$typ_neu="K";
+if (isset($_GET['typ'])){
+    $typ_neu=$_GET['typ'];
+}
+
 //daten speichern
 $msg="";
 if (isset($_POST['submit'])){
@@ -76,10 +81,17 @@ if ($action=="e" && $id_kunde!=0){
         $stmt2 -> fetch();
         $stmt2 -> close();
     }
+	$typ_neu=$typ;
 }
 ?>
 <div class="table">
-<p class="header">Kunde bearbeiten</p>
+<?php
+$header="<p class='header'>Kunde bearbeiten</p>";
+if ($typ_neu=="L"){
+	$header="<p class='header'>Lieferant bearbeiten</p>";
+}
+?>
+<?=$header;?>
 <?=$msg;?>
 <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
 	<input type="hidden" name="action" value="<?=$action;?>">
@@ -91,7 +103,7 @@ if ($action=="e" && $id_kunde!=0){
     <td><select name="typ">
         <option value="">---</option>
         <?php
-        if ($typ=="K"){
+        if ($typ_neu=="K"){
             ?>
             <option value="K" selected>Kunde</option>
             <?php
@@ -100,7 +112,7 @@ if ($action=="e" && $id_kunde!=0){
             <option value="K">Kunde</option>
             <?php
         }
-		if ($typ=="L"){
+		if ($typ_neu=="L"){
             ?>
             <option value="L" selected>Lieferant</option>
             <?php

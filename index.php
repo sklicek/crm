@@ -20,38 +20,6 @@ $_SESSION['root_path']=$protocol.$_SERVER['HTTP_HOST'].dirname($_SERVER['SCRIPT_
 include("include/menu.php");
 @require_once("include/config.inc.php");
 
-$counter=0;
-if ($stmt2 = $mysqli -> prepare("SELECT count(*) FROM kunden where typ='K'")) {
-  $stmt2 -> execute();
-  $stmt2 -> bind_result($counter);
-  $stmt2 -> fetch();
-  $stmt2 -> close();
-}
-
-$counter_lief=0;
-if ($stmt2 = $mysqli -> prepare("SELECT count(*) FROM kunden where typ='L'")) {
-  $stmt2 -> execute();
-  $stmt2 -> bind_result($counter_lief);
-  $stmt2 -> fetch();
-  $stmt2 -> close();
-}
-
-$counter_rech=0;
-if ($stmt2 = $mysqli -> prepare("SELECT count(*) FROM rechnungen")) {
-  $stmt2 -> execute();
-  $stmt2 -> bind_result($counter_rech);
-  $stmt2 -> fetch();
-  $stmt2 -> close();
-}
-
-$counter_rech_ein=0;
-if ($stmt2 = $mysqli -> prepare("SELECT count(*) FROM rechnungen_eingang")) {
-  $stmt2 -> execute();
-  $stmt2 -> bind_result($counter_rech_ein);
-  $stmt2 -> fetch();
-  $stmt2 -> close();
-}
-
 //Einnahmen
 $gesamt_einnahmen=0;
 $jr=date("Y");
@@ -121,28 +89,8 @@ for ($i=$min_jr;$i<=$jr;$i++){
 </select>
 </form>
 </p>
-<p class="header">Im System gespeichert</p>
-<table>
-<tbody>
-<tr>
-  <td>Kunden</td>
-  <td><?=$counter;?></td>
-</tr>
-<tr>
-  <td>Rechnungen<br>Ausgang</td>
-  <td><?=$counter_rech;?></td>  
-</tr>
-<tr>
-  <td>Lieferanten</td>
-  <td><?=$counter_lief;?></td>
-</tr>
-<tr>  
-  <td>Rechnungen<br>Eingang</td>
-  <td><?=$counter_rech_ein;?></td>
-</tr>
-</tbody>
-</table>
 </div>
+
 <div class="table">
 <p class="header">Ergebnis <?=$jr;?></p>
 <table>

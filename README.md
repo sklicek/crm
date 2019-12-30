@@ -11,6 +11,7 @@ Funktionen:
 - Verwalten des Kontenrahmens für die EÜR
 - Dashboard
 - Diverse Auswertungen (Ein-/Ausgaben/EÜR)
+- Exportieren zu MS Excel
 
 Die Datei include/config.inc.php muss angepasst werden mit den Zugangsdaten für MySQL.
 

@@ -6,16 +6,6 @@ $username="root";
 $password="<Kennwort>";
 $port="3306";
 
-//Eigene Firma
-const FIRMA_NAME="<Firmenbezeichnung>";
-const FIRMA_ADRESSE="<Adresse>";
-const FIRMA_PLZ="<Postleitzahl>";
-const FIRMA_ORT="<Ortschaft>";
-const FIRMA_LAND="Deutschland";
-const FIRMA_EMAIL="<Email-Adresse>";
-const FIRMA_TEL="<Festnetz-Rufnummer>";
-const FIRMA_STEUERNR="<Steuernummer der Firma>";
-
 //Datenbank-Verbindung
 $mysqli = @(new mysqli($hostname, $username, $password, $database, $port));
 if ($mysqli->connect_error) {

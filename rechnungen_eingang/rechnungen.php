@@ -17,6 +17,7 @@ include("../include/menu.php");
 <div class="table">
 <p class="header">Eingangsrechnungen
   <a class="btn" href="rechnungen_bearbeiten.php?action=n">Neue Rechnung</a>
+  <a class="btn" onclick="fnExcelReport('tabelle');">Export (XLS)</a>
 </p>
 <form method="post">
 <b>Konto-Nr</b><br>
@@ -40,7 +41,7 @@ include("../include/menu.php");
 </div>
 
 <div class="table">
-<table>
+<table id="tabelle">
   <thead>
     <tr>
      <th>Nr</th>
@@ -110,5 +111,6 @@ $mysqli->close();
 </tbody>
 </table>
 </div>
+<script src="../js/funktionen.js"></script>
 </body>
 </html>

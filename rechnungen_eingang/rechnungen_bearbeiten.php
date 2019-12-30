@@ -61,6 +61,13 @@ if (isset($_POST['submit'])){
             $stmt2 -> close();
         }
     }
+	?>
+    <script>
+	alert(<?=$msg;?>);
+    window.location.href="rechnungen.php";
+    </script>
+    <?php
+    exit;
 }
 
 //rechnung löschen
@@ -97,7 +104,6 @@ if ($action=="e" && $id_rechnung!=0){
 ?>
 <div class="table">
 <p class="header">Eingangsrechnungen bearbeiten</p>
-<?=$msg;?>
 <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
     <input type="hidden" name="action" value="<?=$action;?>">
     <input type="hidden" name="id" value="<?=$id_rechnung;?>">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 30. Dez 2019 um 08:11
+-- Erstellungszeit: 30. Dez 2019 um 10:08
 -- Server-Version: 8.0.17
 -- PHP-Version: 7.2.22
 
@@ -461,9 +461,10 @@ CREATE TABLE `kunden` (
   `email` varchar(250) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `ust_idnr` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `land_code` char(5) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `typ` varchar(1) NOT NULL DEFAULT 'K',
+  `typ` varchar(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'K' COMMENT 'K=Kunde, L=Lieferant, F=Unternehmen',
   `festnetz` varchar(50) DEFAULT NULL,
-  `mobil` varchar(50) DEFAULT NULL
+  `mobil` varchar(50) DEFAULT NULL,
+  `steuer_nr` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

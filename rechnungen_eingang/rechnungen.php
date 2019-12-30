@@ -19,9 +19,9 @@ include("../include/menu.php");
   <a class="btn" href="rechnungen_bearbeiten.php?action=n">Neue Rechnung</a>
   <a class="btn" onclick="fnExcelReport('tabelle');">Export (XLS)</a>
 </p>
-<form method="post">
-<b>Konto-Nr</b><br>
-<select name="id_konto">
+<form id="search_form" method="post">
+<b>Konto-Nr</b>
+<select name="id_konto" onchange="submit_form();">
   <option value="">---</option>
   <?php
   if ($stmt2 = $mysqli -> prepare("SELECT DISTINCT a.id_konto, b.konto_nr, b.bezeichnung FROM rechnungen_eingang as a left join kontenrahmen as b on a.id_konto=b.id_konto")) {
@@ -36,7 +36,6 @@ include("../include/menu.php");
   }
   ?>
 </select>
-<input class="btn" type="submit" name="submit" value="Suchen" />
 </form>
 </div>
 
@@ -59,7 +58,7 @@ include("../include/menu.php");
 $counter=0;
 $total=0;
 $sql="SELECT a.id_rechnung, a.rechnung_nr, a.rechnung_datum, a.leistung_datum, a.bruttowert, b.firma, a.datum_bezahlt, a.beschreibung, a.pdffile FROM rechnungen_eingang a LEFT JOIN kunden b on a.kunde_id=b.kunde_id";
-if (isset($_POST['submit']) && $_POST['id_konto']!=""){
+if ($_POST['id_konto']!="" && $_POST['id_konto']!=""){
   $sql.=" WHERE a.id_konto = ".$_POST['id_konto'];
 }
 $sql.=" ORDER BY a.rechnung_datum DESC, a.rechnung_nr DESC";
@@ -112,5 +111,10 @@ $mysqli->close();
 </table>
 </div>
 <script src="../js/funktionen.js"></script>
+<script>
+function submit_form(){
+	document.getElementById('search_form').submit();
+}
+</script>
 </body>
 </html>

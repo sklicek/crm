@@ -136,7 +136,7 @@ if ($id_angebot!=0){
 	</tr>
 	<tr>
 		<td><input class="btn" type="submit" name="submit" value="Speichern"></td>
-		<td></td>
+		<td><a class="btn" href="../word_export/angebot.php?id=<?=$id_angebot;?>" target="_blank">Exportieren nach Word</a></td>
 	</tr>
 	</tbody>
 	</table>

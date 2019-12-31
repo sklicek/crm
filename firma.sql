@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 30. Dez 2019 um 10:08
+-- Erstellungszeit: 31. Dez 2019 um 16:03
 -- Server-Version: 8.0.17
 -- PHP-Version: 7.2.22
 
@@ -21,6 +21,32 @@ SET time_zone = "+00:00";
 --
 -- Datenbank: `firma`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `angebote`
+--
+
+CREATE TABLE `angebote` (
+  `id_angebot` int(11) NOT NULL,
+  `datum_angebot` date DEFAULT NULL,
+  `nr_angebot` varchar(25) DEFAULT NULL,
+  `id_kunde` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `artikel`
+--
+
+CREATE TABLE `artikel` (
+  `id_art` int(11) NOT NULL,
+  `bezeichnung` varchar(250) DEFAULT NULL,
+  `id_einheit` int(11) DEFAULT NULL,
+  `vkpreis_einheit` decimal(10,2) DEFAULT '0.00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -294,6 +320,17 @@ INSERT INTO `country` (`Code`, `Name`, `Continent`, `Region`, `SurfaceArea`, `In
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `einheiten`
+--
+
+CREATE TABLE `einheiten` (
+  `id_einheit` int(11) NOT NULL,
+  `einheit` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `kontenrahmen`
 --
 
@@ -376,9 +413,9 @@ INSERT INTO `kontenrahmen` (`id_konto`, `konto_nr`, `bezeichnung`, `typ`, `zeile
 -- (Siehe unten für die tatsächliche Ansicht)
 --
 CREATE TABLE `krechnungen` (
-`bruttowert` decimal(32,2)
-,`firma` varchar(150)
+`firma` varchar(150)
 ,`rechnung_datum` int(5)
+,`bruttowert` decimal(32,2)
 );
 
 -- --------------------------------------------------------
@@ -388,9 +425,9 @@ CREATE TABLE `krechnungen` (
 -- (Siehe unten für die tatsächliche Ansicht)
 --
 CREATE TABLE `krechnungen_eingang` (
-`bruttowert` decimal(32,2)
-,`firma` varchar(150)
+`firma` varchar(150)
 ,`rechnung_datum` int(5)
+,`bruttowert` decimal(32,2)
 );
 
 -- --------------------------------------------------------
@@ -400,10 +437,10 @@ CREATE TABLE `krechnungen_eingang` (
 -- (Siehe unten für die tatsächliche Ansicht)
 --
 CREATE TABLE `krechnungen_eingang_kontonr` (
-`bezeichnung` varchar(250)
-,`gesamt_bruttowert` decimal(32,2)
-,`id_konto` int(11)
+`id_konto` int(11)
 ,`konto_nr` int(11)
+,`bezeichnung` varchar(250)
+,`gesamt_bruttowert` decimal(32,2)
 ,`rechnung_jahr` int(5)
 );
 
@@ -414,9 +451,9 @@ CREATE TABLE `krechnungen_eingang_kontonr` (
 -- (Siehe unten für die tatsächliche Ansicht)
 --
 CREATE TABLE `krechnungen_eingang_offen` (
-`bruttowert` decimal(32,2)
-,`firma` varchar(150)
+`firma` varchar(150)
 ,`rechnung_datum` int(5)
+,`bruttowert` decimal(32,2)
 );
 
 -- --------------------------------------------------------
@@ -426,10 +463,10 @@ CREATE TABLE `krechnungen_eingang_offen` (
 -- (Siehe unten für die tatsächliche Ansicht)
 --
 CREATE TABLE `krechnungen_kontonr` (
-`bezeichnung` varchar(250)
-,`gesamt_bruttowert` decimal(32,2)
-,`id_konto` int(11)
+`id_konto` int(11)
 ,`konto_nr` int(11)
+,`bezeichnung` varchar(250)
+,`gesamt_bruttowert` decimal(32,2)
 ,`rechnung_jahr` int(5)
 );
 
@@ -440,9 +477,9 @@ CREATE TABLE `krechnungen_kontonr` (
 -- (Siehe unten für die tatsächliche Ansicht)
 --
 CREATE TABLE `krechnungen_offen` (
-`bruttowert` decimal(32,2)
-,`firma` varchar(150)
+`firma` varchar(150)
 ,`rechnung_datum` int(5)
+,`bruttowert` decimal(32,2)
 );
 
 -- --------------------------------------------------------
@@ -508,6 +545,19 @@ CREATE TABLE `rechnungen_eingang` (
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `rel_artikel_angebot`
+--
+
+CREATE TABLE `rel_artikel_angebot` (
+  `id_rel` int(11) NOT NULL,
+  `id_artikel` int(11) DEFAULT NULL,
+  `id_angebot` int(11) DEFAULT NULL,
+  `anzahl` decimal(10,2) DEFAULT '0.00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Struktur des Views `krechnungen`
 --
 DROP TABLE IF EXISTS `krechnungen`;
@@ -564,10 +614,28 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 
 --
+-- Indizes für die Tabelle `angebote`
+--
+ALTER TABLE `angebote`
+  ADD PRIMARY KEY (`id_angebot`);
+
+--
+-- Indizes für die Tabelle `artikel`
+--
+ALTER TABLE `artikel`
+  ADD PRIMARY KEY (`id_art`);
+
+--
 -- Indizes für die Tabelle `country`
 --
 ALTER TABLE `country`
   ADD PRIMARY KEY (`Code`);
+
+--
+-- Indizes für die Tabelle `einheiten`
+--
+ALTER TABLE `einheiten`
+  ADD PRIMARY KEY (`id_einheit`);
 
 --
 -- Indizes für die Tabelle `kontenrahmen`
@@ -594,8 +662,32 @@ ALTER TABLE `rechnungen_eingang`
   ADD PRIMARY KEY (`id_rechnung`);
 
 --
+-- Indizes für die Tabelle `rel_artikel_angebot`
+--
+ALTER TABLE `rel_artikel_angebot`
+  ADD PRIMARY KEY (`id_rel`);
+
+--
 -- AUTO_INCREMENT für exportierte Tabellen
 --
+
+--
+-- AUTO_INCREMENT für Tabelle `angebote`
+--
+ALTER TABLE `angebote`
+  MODIFY `id_angebot` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT für Tabelle `artikel`
+--
+ALTER TABLE `artikel`
+  MODIFY `id_art` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT für Tabelle `einheiten`
+--
+ALTER TABLE `einheiten`
+  MODIFY `id_einheit` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `kontenrahmen`
@@ -620,6 +712,12 @@ ALTER TABLE `rechnungen`
 --
 ALTER TABLE `rechnungen_eingang`
   MODIFY `id_rechnung` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT für Tabelle `rel_artikel_angebot`
+--
+ALTER TABLE `rel_artikel_angebot`
+  MODIFY `id_rel` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -11,6 +11,14 @@ session_start();
   </div>
 </li>
 <li class="dropdown">
+  <a href="javascript:void(0)" class="dropbtn">Angebote</a>
+  <div class="dropdown-content">
+      <a href="<?=$_SESSION['root_path'];?>/config/einheiten.php">Einheiten konfig.</a>
+	  <a href="<?=$_SESSION['root_path'];?>/config/artikel.php">Artikel konfig.</a>
+	  <a href="<?=$_SESSION['root_path'];?>/angebote/angebote.php">Angebote</a>
+  </div>
+</li>
+<li class="dropdown">
   <a href="javascript:void(0)" class="dropbtn">Rechnungen</a>
   <div class="dropdown-content">
 	<a href="<?=$_SESSION['root_path'];?>/rechnungen/rechnungen.php">Ausgangsrechnungen</a>

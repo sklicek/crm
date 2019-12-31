@@ -3,12 +3,14 @@ Einfaches CRM für Kleinunternehmer/Freiberufler in PHP und MySQL. Responsive De
 
 Die Anwendung verwendet einen einfachen Kontenrahmen, den man auf eigene Bedürfnisse anpassen kann. Einfach zu verstehende Eingabedialoge ermöglichen die Erfassung von Belegen und die Änderung bzw. Erweiterung des Kontenrahmens.
 
+Achtung: Alle Preise ohne MwSt., also als Brutto-Preise!
+
 Die Anwendung kann selbst gehostet werden.
 
 Funktionen:
 - Verwalten der Kontakte (Kunden, Lieferanten)
 - Verwalten von Ein- und Ausgangsrechnungen 
-- Erstellen von Angeboten und als Word-Dokument exportieren
+- Erstellen von Angeboten, exportieren als Word-Dokument
 - Verwalten des Kontenrahmens für die EÜR
 - Dashboard
 - Diverse Auswertungen (Ein-/Ausgaben/EÜR)

@@ -7,7 +7,7 @@ Die Anwendung kann selbst gehostet werden.
 
 Funktionen:
 - Verwalten der Kontakte (Kunden, Lieferanten)
-- Verwalten der Ein- und Ausgangsrechnungen
+- Erstellen von Ein- und Ausgangsrechnungen sowie Angebote
 - Verwalten des Kontenrahmens für die EÜR
 - Dashboard
 - Diverse Auswertungen (Ein-/Ausgaben/EÜR)

@@ -15,7 +15,7 @@ session_start();
   <div class="dropdown-content">
       <a href="<?=$_SESSION['root_path'];?>/config/einheiten.php">Einheiten konfig.</a>
 	  <a href="<?=$_SESSION['root_path'];?>/config/artikel.php">Artikel konfig.</a>
-	  <a href="<?=$_SESSION['root_path'];?>/angebote/angebote.php">Angebote</a>
+	  <a onclick="alert('Diese Funktion ist noch nicht vollständig entwickelt!');" href="<?=$_SESSION['root_path'];?>/angebote/angebote.php">Angebote</a>
   </div>
 </li>
 <li class="dropdown">

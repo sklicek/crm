@@ -33,9 +33,15 @@ include("../include/menu.php");
   </thead>
   <tbody>
 <?php
+$yr=date("Y");
+if (isset($_SESSION['kal_jahr'])){
+	$yr=$_SESSION['kal_jahr'];
+}
+
 $counter=0;
 $total=0;
-if ($stmt2 = $mysqli -> prepare("SELECT a.id_rechnung, a.rechnung_nr, a.rechnung_datum, a.leistung_datum, a.bruttowert, b.firma, a.datum_bezahlt, a.pdffile FROM rechnungen a LEFT JOIN kunden b on a.kunde_id=b.kunde_id ORDER BY a.rechnung_datum DESC, a.rechnung_nr DESC")) {
+if ($stmt2 = $mysqli -> prepare("SELECT a.id_rechnung, a.rechnung_nr, a.rechnung_datum, a.leistung_datum, a.bruttowert, b.firma, a.datum_bezahlt, a.pdffile FROM rechnungen a LEFT JOIN kunden b on a.kunde_id=b.kunde_id WHERE year(a.datum_bezahlt) = ? ORDER BY a.rechnung_datum DESC, a.rechnung_nr DESC")) {
+  $stmt2 -> bind_param("i",$yr);
   $stmt2 -> execute();
   $stmt2 -> bind_result($id, $nr, $dat, $dat_leist, $brutto, $kunde,$dat_bez,$pdffile);
   while ($stmt2 -> fetch()){

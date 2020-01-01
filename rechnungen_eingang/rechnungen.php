@@ -55,14 +55,22 @@ include("../include/menu.php");
   </thead>
   <tbody>
 <?php
+$yr=date("Y");
+if (isset($_SESSION['kal_jahr'])){
+	$yr=$_SESSION['kal_jahr'];
+}
+
 $counter=0;
 $total=0;
 $sql="SELECT a.id_rechnung, a.rechnung_nr, a.rechnung_datum, a.leistung_datum, a.bruttowert, b.firma, a.datum_bezahlt, a.beschreibung, a.pdffile FROM rechnungen_eingang a LEFT JOIN kunden b on a.kunde_id=b.kunde_id";
 if ($_POST['id_konto']!="" && $_POST['id_konto']!=""){
-  $sql.=" WHERE a.id_konto = ".$_POST['id_konto'];
+  $sql.=" WHERE a.id_konto = ".$_POST['id_konto']." AND year(a.datum_bezahlt) = ?";
+} else {
+  $sql.=" WHERE year(a.datum_bezahlt) = ?";
 }
 $sql.=" ORDER BY a.rechnung_datum DESC, a.rechnung_nr DESC";
 if ($stmt2 = $mysqli -> prepare($sql)) {
+  $stmt2 -> bind_param("i",$yr); 	
   $stmt2 -> execute();
   $stmt2 -> bind_result($id, $nr, $dat, $dat_leist, $brutto, $kunde,$dat_bez,$besch,$pdffile);
   while ($stmt2 -> fetch()){

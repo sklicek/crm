@@ -1,5 +1,5 @@
-# CRM für Kleinunternehmer/Freiberufler
-Einfaches CRM für Kleinunternehmer/Freiberufler in PHP und MySQL. Responsive Design. 
+# CRM/Faktura für Kleinunternehmer/Freiberufler
+Einfaches CRM und Faktura für Kleinunternehmer/Freiberufler in PHP und MySQL. Responsive Design. 
 
 Die Anwendung verwendet einen einfachen Kontenrahmen, den man auf eigene Bedürfnisse anpassen kann. Einfach zu verstehende Eingabedialoge ermöglichen die Erfassung von Belegen und die Änderung bzw. Erweiterung des Kontenrahmens.
 

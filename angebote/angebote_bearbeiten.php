@@ -86,17 +86,42 @@ if ($action=="e" && $id_angebot!=0){
     if ($dat!="") $dat=date("Y-m-d",strtotime($dat));
 }
 if ($dat=="") $dat=date("Y-m-d",strtotime('now'));
+
+//artikel holen
+$arr_artikel=array();
+$a=0;
+if ($stmt2 = $mysqli -> prepare("SELECT a.id_art, a.bezeichnung, a.vkpreis_einheit, b.einheit FROM artikel as a left join einheiten as b on a.id_einheit=b.id_einheit ORDER BY a.id_art")) {
+    $stmt2 -> execute();
+    $stmt2 -> bind_result($id_art,$bez,$vkpreis,$einheit);
+    while ($stmt2 -> fetch()){
+		$arr_artikel[$a][0]=$id_art;
+		$arr_artikel[$a][1]=$bez;
+		$arr_artikel[$a][2]=$vkpreis;
+		$arr_artikel[$a][3]=$einheit;
+		$a++;
+	}
+    $stmt2 -> close();
+}
+
+//gespeicherte artikel in angebot holen
+$arr_artikel_angebot=array();
+$a=0;
+if ($stmt2 = $mysqli -> prepare("SELECT id_artikel, anzahl, id_rel FROM rel_artikel_angebot WHERE id_angebot = ?")) {
+	$stmt2 -> bind_param("i",$id_angebot);
+    $stmt2 -> execute();
+    $stmt2 -> bind_result($id_art,$anz,$id_rel);
+    while ($stmt2 -> fetch()){
+		$arr_artikel_angebot[$a][0]=$id_art;
+		$arr_artikel_angebot[$a][1]=$anz;
+		$arr_artikel_angebot[$a][2]=$id_rel;
+		$a++;
+	}
+    $stmt2 -> close();
+}
+
 ?>
 <div class="table">
-<p class="header">Angebot bearbeiten
-<?php
-if ($id_angebot!=0){
-	?>
-	<a class="btn" href="angebote_artikel_bearbeiten.php?id=<?=$id_angebot;?>">Artikel bearbeiten</a>
-	<?php
-}
-?>
-</p>
+<p class="header">Angebot bearbeiten</p>
 <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
     <input type="hidden" name="action" value="<?=$action;?>">
     <input type="hidden" name="id" value="<?=$id_angebot;?>">
@@ -136,11 +161,89 @@ if ($id_angebot!=0){
 	</tr>
 	<tr>
 		<td><input class="btn" type="submit" name="submit" value="Speichern"></td>
-		<td><a class="btn" href="../word_export/angebot.php?id=<?=$id_angebot;?>" target="_blank">Exportieren nach Word</a></td>
+		<td>&nbsp;</td>
 	</tr>
 	</tbody>
 	</table>
 </form>
+</div>
+
+<div class="table">
+<table>
+<thead>
+	<tr>
+	<th colspan="4" style="background-color:lightgrey">Artikel im Angebot</th>
+	<th>
+	<?php
+if ($id_angebot!=0){
+	?>
+	<a class="btn" href="angebote_artikel_bearbeiten.php?id=<?=$id_angebot;?>">Artikel bearbeiten</a>
+	<?php
+}
+?>
+	</th>
+	</tr>
+	<tr>
+	<th>Anzahl</th>
+	<th>Artikel-Bezeichnung</th>
+	<th>Preis/Einheit</th>
+	<th>Einheit</th>
+	<th>VK-Preis</th>
+	</tr>
+</thead>
+<tbody>
+	<?php
+	$summe_ang=0;
+	for ($a=0;$a<count($arr_artikel_angebot);$a++){
+		$id_art=$arr_artikel_angebot[$a][0];
+		$anz=$arr_artikel_angebot[$a][1];
+		$id_rel=$arr_artikel_angebot[$a][2];
+		$bez="";
+		$einheit="";
+		$einzelpreis=0;
+		for ($x=0;$x<count($arr_artikel);$x++){
+			if ($arr_artikel[$x][0]==$id_art){
+				$bez=$arr_artikel[$x][1];
+				$einzelpreis=$arr_artikel[$x][2];
+				$einheit=$arr_artikel[$x][3];
+				break;
+			}
+		}
+		$preis=$anz*$einzelpreis;
+		$summe_ang+=$preis;
+		?>
+		<tr>
+			<td><?=$anz;?></td>
+			<td><?=$bez;?></td>
+			<td><?=$einzelpreis;?>&euro;</td>
+			<td><?=$einheit;?></td>
+			<td><?=number_format($preis,2);?>&euro;</td>
+		</tr>
+		<?php
+	}
+	?>
+	<tr style="background-color:lightgrey">
+		<td><b>Summe Angebot</b></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td><b><u><?=number_format($summe_ang,2);?>&euro;</u></b></td>
+	</tr>
+	<?php
+	if ($id_angebot!=0){
+	?>
+	<tr>
+		<td><a class="btn" href="../word_export/angebot.php?id=<?=$id_angebot;?>" target="_blank">Exportieren (Word)</a></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<?php
+	}
+	?>
+</tbody>
+</table>
 </div>
 <?php
 $mysqli -> close();

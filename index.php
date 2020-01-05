@@ -110,6 +110,7 @@ for ($i=$min_jr;$i<=$jr;$i++){
 </tbody>
 </table>
 </div>
+<script src="js/funktionen.js"></script>
 <script>
 function submit_form(){
 	document.getElementById('submit_jr').submit();

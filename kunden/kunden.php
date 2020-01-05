@@ -21,8 +21,18 @@ if (isset($_GET['typ']) && $_GET['typ']!=""){
 ?>
 <div class="table">
 <p class="header">Kontakte
-  <a class="btn" href="kunden_bearbeiten.php?action=n&typ=K">Kunde anlegen</a>
-  <a class="btn" href="kunden_bearbeiten.php?action=n&typ=L">Lieferant anlegen</a>
+  <?php
+  if ($typ=="K"){
+    ?>
+    <a class="btn" href="kunden_bearbeiten.php?action=n&typ=K">Kunde anlegen</a>
+    <?php
+  }
+  if ($typ=="L"){
+    ?>
+    <a class="btn" href="kunden_bearbeiten.php?action=n&typ=L">Lieferant anlegen</a>
+    <?php
+  }
+  ?>
 </p>
 <table>
   <thead>

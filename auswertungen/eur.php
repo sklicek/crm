@@ -23,6 +23,8 @@ if (isset($_SESSION['kal_jahr'])){
 <div class="table">
 <p class="header">Einnahmenüberschussrechnung (EÜR) für einfachen Kontenrahmen - Kleinunternehmer (<?=$jr;?>)
 	<a class="btn" onclick="fnExcelReport('tabelle');">Export (XLS)</a>
+	<a class="btn" href="eur.php?n=1">Betrag 0 ausblenden</a>
+	<a class="btn" href="eur.php">Betrag 0 einblenden</a>
 </p>
 <?php
 //Kontenrahmen holen
@@ -126,14 +128,28 @@ for ($i=0;$i<count($arr_kontenrahmen);$i++){
 				break;
 			}
 		}
-		?>
-		<tr>
+
+		if (isset($_GET['n']) && $brutto>0){
+			?>
+			<tr>
 			<td><?=$zeilenr;?></td>
 			<td><?=$ktnr;?></td>
 			<td><?=$bez;?></td>
 			<td><?=number_format($brutto,2);?></td>
-		</tr>
-		<?php
+			</tr>
+			<?php
+		}
+
+		if (!isset($_GET['n'])){
+			?>
+			<tr>
+			<td><?=$zeilenr;?></td>
+			<td><?=$ktnr;?></td>
+			<td><?=$bez;?></td>
+			<td><?=number_format($brutto,2);?></td>
+			</tr>
+			<?php
+		}
 	}		
 }
 ?>
@@ -158,6 +174,8 @@ for ($i=0;$i<count($arr_kontenrahmen);$i++){
 				break;
 			}
 		}
+
+		if (isset($_GET['n']) && $brutto>0){
 		?>
 		<tr>
 			<td><?=$zeilenr;?></td>
@@ -166,6 +184,18 @@ for ($i=0;$i<count($arr_kontenrahmen);$i++){
 			<td><?=number_format($brutto,2);?></td>
 		</tr>
 		<?php
+		}
+
+		if (!isset($_GET['n'])){
+			?>
+			<tr>
+				<td><?=$zeilenr;?></td>
+				<td><?=$ktnr;?></td>
+				<td><?=$bez;?></td>
+				<td><?=number_format($brutto,2);?></td>
+			</tr>
+			<?php
+		}
 	}		
 }
 ?>

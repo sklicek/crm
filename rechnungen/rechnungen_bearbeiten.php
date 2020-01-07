@@ -145,9 +145,9 @@ if ($nr==""){
     <td><select name="konto">
         <option value="">---</option>
         <?php
-        if ($stmt2 = $mysqli -> prepare("SELECT id_konto, konto_nr, bezeichnung FROM kontenrahmen ORDER BY konto_nr ASC")) {
+        if ($stmt2 = $mysqli -> prepare("SELECT id_konto, konto_nr, bezeichnung FROM kontenrahmen WHERE typ='E' ORDER BY konto_nr ASC")) {
             $stmt2 -> execute();
-            $stmt2 -> bind_result($kt_id, $kt, $bez_konto);
+            $stmt2 -> bind_result($kt_id,$kt,$bez_konto);
             while ($stmt2 -> fetch()){
                 if ($kt_id==$konto_id){
                     ?>

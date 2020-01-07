@@ -100,6 +100,22 @@ if ($action=="e" && $id_rechnung!=0){
     if ($dat_leist!="") $dat_leist=date("Y-m-d",strtotime($dat_leist));
     if ($dat_bez!="") $dat_bez=date("Y-m-d",strtotime($dat_bez));
 }
+
+//neue rechnung-nr generieren wenn keine angegeben
+if ($nr==""){
+    $anz_rechn=0;
+    $jahr=date("Y");
+    $monat=date("n");
+    if ($stmt2 = $mysqli -> prepare("SELECT count(rechnung_nr) FROM rechnungen WHERE year(rechnung_datum) = ? AND month(rechnung_datum) = ? GROUP BY rechnung_nr")) {
+        $stmt2 -> bind_param('ii',$jahr,$monat);
+        $stmt2 -> execute();
+        $stmt2 -> bind_result($anz_rechn);
+        $stmt2 -> fetch();
+        $stmt2 -> close();
+    }
+    $anz_rechn++;
+    $nr=$jahr."-".$monat."-".$anz_rechn;
+}
 ?>
 <div class="table">
 <p class="header">Ausgangsrechnungen bearbeiten</p>

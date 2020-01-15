@@ -31,3 +31,5 @@ Getestet mit folgenden Systemvoraussetzungen:
 Anmerkung zum Datenschutz:
 In dieser Anwendung gespeicherte Daten werden nicht an den Entwickler weitergeschickt. 
 Somit bleibt alles beim Anwender, soweit die Anwendung selbst gehostet wird. Alle Daten, die Sie eingeben, verlassen nicht Ihren Computer - außer Sie veranlassen das selbst. In jedem Fall hat der Autor des Programms keinen Zugang zu Ihren Daten und er verarbeitet diese auch nicht.
+
+Eine Google-Gruppe für Diskussionen und Anregungen wurde eingerichtet unter: https://groups.google.com/d/forum/crm-und-faktura-fr-kleinunternehmer

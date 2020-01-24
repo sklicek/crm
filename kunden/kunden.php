@@ -65,10 +65,10 @@ for ($i=0;$i<count($arr_firmen);$i++){
 	$ort=$arr_firmen[$i][5];
 	$land_code=$arr_firmen[$i][6];
 	$typ=$arr_firmen[$i][7];
-    
-	$offen=getOffeneRechnungen($firma,$jr,$mysqli);
-	$bezahlt=getBezahlteRechnungen($firma,$jr,$mysqli)
-    ?>
+	
+	$offen=getOffeneRechnungen($firma,$jr,$typ,$mysqli);
+	$bezahlt=getBezahlteRechnungen($firma,$jr,$typ,$mysqli)
+	?>
     <tr>
     <td><?=$firma;?></td>
     <td><?=$name;?></td>

@@ -13,10 +13,16 @@
 <?php
 include("../include/menu.php");
 @require_once("../include/config.inc.php");
+@require_once("../include/rechnungen_funktionen.php");
 
 $typ="K";
 if (isset($_GET['typ']) && $_GET['typ']!=""){
 	$typ=htmlspecialchars($_GET['typ']);
+}
+
+$jr=date("Y");
+if (isset($_SESSION['kal_jahr'])){
+	$jr=$_SESSION['kal_jahr'];
 }
 ?>
 <div class="table">
@@ -42,16 +48,26 @@ if (isset($_GET['typ']) && $_GET['typ']!=""){
      <th>Strasse</th>
      <th>PLZ/Ort</th>
      <th>Land</th>
-	 <th>Aktion</th>
+     <th>Offen</th>
+     <th>Bezahlt</th>
+	   <th>Aktion</th>
     </tr>	
   </thead>
   <tbody>
 <?php
-if ($stmt2 = $mysqli -> prepare("SELECT kunde_id, firma, person, strasse, plz, ort, land_code, typ FROM kunden WHERE typ=? ORDER BY kunde_id")) {
-  $stmt2 -> bind_param('s',$typ);
-  $stmt2 -> execute();
-  $stmt2 -> bind_result($id, $firma, $name, $strasse, $plz, $ort, $land_code,$typ);
-  while ($stmt2 -> fetch()){
+$arr_firmen=getKunden($typ,$mysqli);
+for ($i=0;$i<count($arr_firmen);$i++){
+	$id=$arr_firmen[$i][0];
+	$firma=$arr_firmen[$i][1];
+	$name=$arr_firmen[$i][2];
+	$strasse=$arr_firmen[$i][3];
+	$plz=$arr_firmen[$i][4];
+	$ort=$arr_firmen[$i][5];
+	$land_code=$arr_firmen[$i][6];
+	$typ=$arr_firmen[$i][7];
+    
+	$offen=getOffeneRechnungen($firma,$jr,$mysqli);
+	$bezahlt=getBezahlteRechnungen($firma,$jr,$mysqli)
     ?>
     <tr>
     <td><?=$firma;?></td>
@@ -59,12 +75,12 @@ if ($stmt2 = $mysqli -> prepare("SELECT kunde_id, firma, person, strasse, plz, o
     <td><?=$strasse;?></td>
     <td><?=$plz.' '.$ort;?></td>
     <td><?=$land_code;?></td>
+    <td><?=number_format($offen,2);?>&euro;</td>
+    <td><?=number_format($bezahlt,2);?>&euro;</td>
 	<td><a class="btn" href="kunden_bearbeiten.php?id=<?=$id;?>&typ=<?=$typ;?>&action=e">Bearbeiten</a></td>
     </tr>
     <?php	
-  }
 }
-$stmt2->close();
 $mysqli->close();
 ?>
 </tbody>

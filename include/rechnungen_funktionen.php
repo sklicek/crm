@@ -22,9 +22,13 @@ function getKunden($typ,$mysqli) {
     return $arr;
 }
 
-function getOffeneRechnungen($firma,$jahr,$mysqli) {
+function getOffeneRechnungen($firma,$jahr,$typ,$mysqli) {
 	$brutto_gesamt_offen=0;
-    if ($stmt = $mysqli -> prepare("SELECT sum(bruttowert) FROM krechnungen_offen WHERE rechnung_datum = ? and firma = ? group by rechnung_datum, firma")) {
+	$sql="SELECT sum(bruttowert) FROM krechnungen_offen WHERE rechnung_datum = ? and firma = ? group by rechnung_datum, firma";
+	if ($typ=='L'){
+		$sql="SELECT sum(bruttowert) FROM krechnungen_eingang_offen WHERE rechnung_datum = ? and firma = ? group by rechnung_datum, firma";
+	}
+    if ($stmt = $mysqli -> prepare($sql)) {
         $stmt -> bind_param('is',$jahr,$firma);
         $stmt -> execute();
         $stmt -> bind_result($brutto);
@@ -36,9 +40,13 @@ function getOffeneRechnungen($firma,$jahr,$mysqli) {
     return $brutto_gesamt_offen;
 }
 
-function getBezahlteRechnungen($firma,$jahr,$mysqli) {
+function getBezahlteRechnungen($firma,$jahr,$typ,$mysqli) {
     $brutto_gesamt_bezahlt=0;
-    if ($stmt = $mysqli -> prepare("SELECT sum(bruttowert) FROM krechnungen WHERE rechnung_datum = ? and firma = ? group by rechnung_datum, firma")) {
+	$sql="SELECT sum(bruttowert) FROM krechnungen WHERE rechnung_datum = ? and firma = ? group by rechnung_datum, firma";
+	if ($typ=='L'){
+		$sql="SELECT sum(bruttowert) FROM krechnungen_eingang WHERE rechnung_datum = ? and firma = ? group by rechnung_datum, firma";
+	}
+    if ($stmt = $mysqli -> prepare($sql)) {
 		$stmt -> bind_param('is',$jahr,$firma);
         $stmt -> execute();
         $stmt -> bind_result($brutto);

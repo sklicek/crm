@@ -29,6 +29,7 @@ session_start();
   <button class="dropbtn">Auswertungen</button>
   <div class="dropdown-content">
       <a href="<?=$_SESSION['root_path'];?>/auswertungen/eur.php">EÜR</a>
+      <a href="<?=$_SESSION['root_path'];?>/auswertungen/saldenliste.php">Saldenliste</a>
       <a href="<?=$_SESSION['root_path'];?>/auswertungen/rechnungen_view.php">Ausgangsrechnungen</a>
       <a href="<?=$_SESSION['root_path'];?>/auswertungen/rechnungen_eingang_view.php">Eingangsrechnungen</a>
   </div>

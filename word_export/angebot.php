@@ -1,11 +1,10 @@
-<html>
 	<?php
 	//**********************************
 	//angebot nach word exportieren
 	//**********************************
 	@require_once("../include/config.inc.php");
-	require_once('tbs_class.php');
-	require_once('tbs_plugin_opentbs.php');
+	include_once('tbs_class.php');
+	include_once('tbs_plugin_opentbs.php');
 
 	$id_angebot="";
 	if (isset($_GET['id'])){
@@ -111,15 +110,30 @@
 	//TBS-Instanz initialisieren und Word-Dokument erstellen
 	$TBS = new clsTinyButStrong;
 	$TBS->Plugin(TBS_INSTALL, OPENTBS_PLUGIN);
-	
-	$template = '../word_vorlagen/angebot.docx';
-				
+	$template = '../word_vorlagen/angebot.odt';
 	$TBS->LoadTemplate($template, OPENTBS_ALREADY_UTF8); // Also merge some [onload] automatic fields (depends of the type of document). 
 	
 	//Angebot-Daten in Word-Tabelle einlesen
 	$TBS->MergeBlock('b', $arr_dest_word);
 	
 	//Als download anbieten
-	$TBS->Show(OPENTBS_DOWNLOAD,'angebot.docx');
+	$output_file_name="angebot_exported.odt";
+	$TBS->Show(OPENTBS_FILE, $output_file_name);
+	
+	 // Process download
+        if(file_exists($output_file_name)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="'.basename($output_file_name).'"');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($output_file_name));
+            flush(); // Flush system output buffer
+            readfile($output_file_name);
+            die();
+        } else {
+            http_response_code(404);
+	        die();
+        }
 	?>
-</html>

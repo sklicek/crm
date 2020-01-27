@@ -233,7 +233,7 @@ if ($id_angebot!=0){
 	if ($id_angebot!=0){
 	?>
 	<tr>
-		<td><a class="btn" href="../word_export/angebot.php?id=<?=$id_angebot;?>" target="_blank">Exportieren (Word)</a></td>
+		<td><a class="btn" href="../word_export/angebot.php?id=<?=$id_angebot;?>" target="_blank">Exportieren</a></td>
 		<td></td>
 		<td></td>
 		<td></td>

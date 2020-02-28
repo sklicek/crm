@@ -87,6 +87,28 @@ if ($action=="e" && $id_angebot!=0){
 }
 if ($dat=="") $dat=date("Y-m-d",strtotime('now'));
 
+//neue rechnung-nr generieren wenn keine angegeben
+if ($nr==""){
+    $anz_rechn=0;
+    $jahr=date("Y");
+    $monat=date("n");
+    if ($stmt2 = $mysqli -> prepare("SELECT count(nr_angebot) FROM angebote WHERE year(datum_angebot) = ? AND month(datum_angebot) = ? GROUP BY nr_angebot")) {
+        $stmt2 -> bind_param('ii',$jahr,$monat);
+        $stmt2 -> execute();
+        $stmt2 -> bind_result($anz_rechn);
+        $stmt2 -> fetch();
+        $stmt2 -> close();
+    }
+	$anz_rechn++;
+	if ($monat<10){
+		$monat="0".$monat;
+	}
+	if ($anz_rechn<10){
+		$anz_rechn="0".$anz_rechn;
+	}
+    $nr=$jahr."-".$monat."-".$anz_rechn;
+}
+
 //artikel holen
 $arr_artikel=array();
 $a=0;

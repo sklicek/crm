@@ -114,6 +114,12 @@ if ($nr==""){
         $stmt2 -> close();
     }
     $anz_rechn++;
+    if ($monat<10){
+		$monat="0".$monat;
+	}
+	if ($anz_rechn<10){
+		$anz_rechn="0".$anz_rechn;
+	}
     $nr=$jahr."-".$monat."-".$anz_rechn;
 }
 ?>

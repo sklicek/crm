@@ -112,35 +112,20 @@ if ($nr==""){
 //artikel holen
 $arr_artikel=array();
 $a=0;
-if ($stmt2 = $mysqli -> prepare("SELECT a.id_art, a.bezeichnung, a.vkpreis_einheit, b.einheit FROM artikel as a left join einheiten as b on a.id_einheit=b.id_einheit ORDER BY a.id_art")) {
+if ($stmt2 = $mysqli -> prepare("SELECT a.id_art, a.bezeichnung, a.vkpreis_einheit, b.einheit, a.anzahl FROM angebote_artikel as a left join einheiten as b on a.id_einheit=b.id_einheit WHERE id_angebot = ? ORDER BY a.id_art")) {
+    $stmt2 -> bind_param("i",$id_angebot);    
     $stmt2 -> execute();
-    $stmt2 -> bind_result($id_art,$bez,$vkpreis,$einheit);
+    $stmt2 -> bind_result($id_art,$bez,$vkpreis,$einheit,$anzahl);
     while ($stmt2 -> fetch()){
 		$arr_artikel[$a][0]=$id_art;
 		$arr_artikel[$a][1]=$bez;
 		$arr_artikel[$a][2]=$vkpreis;
 		$arr_artikel[$a][3]=$einheit;
+		$arr_artikel[$a][4]=$anzahl;
 		$a++;
 	}
     $stmt2 -> close();
 }
-
-//gespeicherte artikel in angebot holen
-$arr_artikel_angebot=array();
-$a=0;
-if ($stmt2 = $mysqli -> prepare("SELECT id_artikel, anzahl, id_rel FROM rel_artikel_angebot WHERE id_angebot = ?")) {
-	$stmt2 -> bind_param("i",$id_angebot);
-    $stmt2 -> execute();
-    $stmt2 -> bind_result($id_art,$anz,$id_rel);
-    while ($stmt2 -> fetch()){
-		$arr_artikel_angebot[$a][0]=$id_art;
-		$arr_artikel_angebot[$a][1]=$anz;
-		$arr_artikel_angebot[$a][2]=$id_rel;
-		$a++;
-	}
-    $stmt2 -> close();
-}
-
 ?>
 <div class="table">
 <p class="header">Angebot bearbeiten</p>
@@ -216,21 +201,12 @@ if ($id_angebot!=0){
 <tbody>
 	<?php
 	$summe_ang=0;
-	for ($a=0;$a<count($arr_artikel_angebot);$a++){
-		$id_art=$arr_artikel_angebot[$a][0];
-		$anz=$arr_artikel_angebot[$a][1];
-		$id_rel=$arr_artikel_angebot[$a][2];
-		$bez="";
-		$einheit="";
-		$einzelpreis=0;
-		for ($x=0;$x<count($arr_artikel);$x++){
-			if ($arr_artikel[$x][0]==$id_art){
-				$bez=$arr_artikel[$x][1];
-				$einzelpreis=$arr_artikel[$x][2];
-				$einheit=$arr_artikel[$x][3];
-				break;
-			}
-		}
+	for ($x=0;$x<count($arr_artikel);$x++){
+		$id_rel=$arr_artikel[$x][0];
+		$bez=$arr_artikel[$x][1];
+		$einzelpreis=$arr_artikel[$x][2];
+		$einheit=$arr_artikel[$x][3];
+		$anz=$arr_artikel[$x][4];
 		$preis=$anz*$einzelpreis;
 		$summe_ang+=$preis;
 		?>

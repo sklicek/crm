@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.3
+-- version 4.9.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 31. Dez 2019 um 16:03
--- Server-Version: 8.0.17
--- PHP-Version: 7.2.22
+-- Erstellungszeit: 21. Apr 2020 um 16:33
+-- Server-Version: 8.0.19
+-- PHP-Version: 7.2.24-0ubuntu0.18.04.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -29,23 +29,25 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `angebote` (
-  `id_angebot` int(11) NOT NULL,
+  `id_angebot` int NOT NULL,
   `datum_angebot` date DEFAULT NULL,
   `nr_angebot` varchar(25) DEFAULT NULL,
-  `id_kunde` int(11) DEFAULT NULL
+  `id_kunde` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `artikel`
+-- Tabellenstruktur für Tabelle `angebote_artikel`
 --
 
-CREATE TABLE `artikel` (
-  `id_art` int(11) NOT NULL,
+CREATE TABLE `angebote_artikel` (
+  `id_art` int NOT NULL,
   `bezeichnung` varchar(250) DEFAULT NULL,
-  `id_einheit` int(11) DEFAULT NULL,
-  `vkpreis_einheit` decimal(10,2) DEFAULT '0.00'
+  `id_einheit` int DEFAULT NULL,
+  `vkpreis_einheit` decimal(10,2) DEFAULT NULL,
+  `id_angebot` int DEFAULT NULL,
+  `anzahl` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -60,15 +62,15 @@ CREATE TABLE `country` (
   `Continent` enum('Asia','Europe','North America','Africa','Oceania','Antarctica','South America') NOT NULL DEFAULT 'Asia',
   `Region` char(26) NOT NULL DEFAULT '',
   `SurfaceArea` float(10,2) NOT NULL DEFAULT '0.00',
-  `IndepYear` smallint(6) DEFAULT NULL,
-  `Population` int(11) NOT NULL DEFAULT '0',
+  `IndepYear` smallint DEFAULT NULL,
+  `Population` int NOT NULL DEFAULT '0',
   `LifeExpectancy` float(3,1) DEFAULT NULL,
   `GNP` float(10,2) DEFAULT NULL,
   `GNPOld` float(10,2) DEFAULT NULL,
   `LocalName` char(45) NOT NULL DEFAULT '',
   `GovernmentForm` char(45) NOT NULL DEFAULT '',
   `HeadOfState` char(60) DEFAULT NULL,
-  `Capital` int(11) DEFAULT NULL,
+  `Capital` int DEFAULT NULL,
   `Code2` char(2) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -324,9 +326,17 @@ INSERT INTO `country` (`Code`, `Name`, `Continent`, `Region`, `SurfaceArea`, `In
 --
 
 CREATE TABLE `einheiten` (
-  `id_einheit` int(11) NOT NULL,
+  `id_einheit` int NOT NULL,
   `einheit` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Daten für Tabelle `einheiten`
+--
+
+INSERT INTO `einheiten` (`id_einheit`, `einheit`) VALUES
+(1, 'Stunde'),
+(2, 'Festpreis');
 
 -- --------------------------------------------------------
 
@@ -335,11 +345,11 @@ CREATE TABLE `einheiten` (
 --
 
 CREATE TABLE `kontenrahmen` (
-  `id_konto` int(11) NOT NULL,
-  `konto_nr` int(11) DEFAULT NULL,
+  `id_konto` int NOT NULL,
+  `konto_nr` int DEFAULT NULL,
   `bezeichnung` varchar(250) DEFAULT NULL,
   `typ` varchar(1) NOT NULL COMMENT 'A=Ausgaben, E=Einnahmen',
-  `zeile_nr` int(11) DEFAULT NULL
+  `zeile_nr` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -414,7 +424,7 @@ INSERT INTO `kontenrahmen` (`id_konto`, `konto_nr`, `bezeichnung`, `typ`, `zeile
 --
 CREATE TABLE `krechnungen` (
 `firma` varchar(150)
-,`rechnung_datum` int(5)
+,`rechnung_datum` int
 ,`bruttowert` decimal(32,2)
 );
 
@@ -426,7 +436,7 @@ CREATE TABLE `krechnungen` (
 --
 CREATE TABLE `krechnungen_eingang` (
 `firma` varchar(150)
-,`rechnung_datum` int(5)
+,`rechnung_datum` int
 ,`bruttowert` decimal(32,2)
 );
 
@@ -437,11 +447,11 @@ CREATE TABLE `krechnungen_eingang` (
 -- (Siehe unten für die tatsächliche Ansicht)
 --
 CREATE TABLE `krechnungen_eingang_kontonr` (
-`id_konto` int(11)
-,`konto_nr` int(11)
+`id_konto` int
+,`konto_nr` int
 ,`bezeichnung` varchar(250)
 ,`gesamt_bruttowert` decimal(32,2)
-,`rechnung_jahr` int(5)
+,`rechnung_jahr` int
 );
 
 -- --------------------------------------------------------
@@ -452,7 +462,7 @@ CREATE TABLE `krechnungen_eingang_kontonr` (
 --
 CREATE TABLE `krechnungen_eingang_offen` (
 `firma` varchar(150)
-,`rechnung_datum` int(5)
+,`rechnung_datum` int
 ,`bruttowert` decimal(32,2)
 );
 
@@ -463,11 +473,11 @@ CREATE TABLE `krechnungen_eingang_offen` (
 -- (Siehe unten für die tatsächliche Ansicht)
 --
 CREATE TABLE `krechnungen_kontonr` (
-`id_konto` int(11)
-,`konto_nr` int(11)
+`id_konto` int
+,`konto_nr` int
 ,`bezeichnung` varchar(250)
 ,`gesamt_bruttowert` decimal(32,2)
-,`rechnung_jahr` int(5)
+,`rechnung_jahr` int
 );
 
 -- --------------------------------------------------------
@@ -478,7 +488,7 @@ CREATE TABLE `krechnungen_kontonr` (
 --
 CREATE TABLE `krechnungen_offen` (
 `firma` varchar(150)
-,`rechnung_datum` int(5)
+,`rechnung_datum` int
 ,`bruttowert` decimal(32,2)
 );
 
@@ -489,7 +499,7 @@ CREATE TABLE `krechnungen_offen` (
 --
 
 CREATE TABLE `kunden` (
-  `kunde_id` int(11) NOT NULL,
+  `kunde_id` int NOT NULL,
   `firma` varchar(150) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `person` varchar(250) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `strasse` varchar(250) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
@@ -511,14 +521,14 @@ CREATE TABLE `kunden` (
 --
 
 CREATE TABLE `rechnungen` (
-  `id_rechnung` int(11) NOT NULL,
+  `id_rechnung` int NOT NULL,
   `rechnung_nr` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `rechnung_datum` datetime DEFAULT CURRENT_TIMESTAMP,
-  `kunde_id` int(11) DEFAULT NULL,
+  `kunde_id` int DEFAULT NULL,
   `leistung_datum` datetime DEFAULT CURRENT_TIMESTAMP,
   `bruttowert` decimal(10,2) DEFAULT NULL,
   `datum_bezahlt` date DEFAULT NULL,
-  `id_konto` int(11) DEFAULT NULL,
+  `id_konto` int DEFAULT NULL,
   `pdffile` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -529,30 +539,17 @@ CREATE TABLE `rechnungen` (
 --
 
 CREATE TABLE `rechnungen_eingang` (
-  `id_rechnung` int(11) NOT NULL,
+  `id_rechnung` int NOT NULL,
   `rechnung_nr` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `rechnung_datum` datetime DEFAULT CURRENT_TIMESTAMP,
-  `kunde_id` int(11) DEFAULT NULL,
+  `kunde_id` int DEFAULT NULL,
   `leistung_datum` datetime DEFAULT CURRENT_TIMESTAMP,
   `bruttowert` decimal(10,2) DEFAULT NULL,
   `nettowert` decimal(10,2) DEFAULT NULL,
   `datum_bezahlt` date DEFAULT NULL,
   `beschreibung` varchar(250) DEFAULT NULL,
-  `id_konto` int(11) DEFAULT NULL,
+  `id_konto` int DEFAULT NULL,
   `pdffile` varchar(250) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `rel_artikel_angebot`
---
-
-CREATE TABLE `rel_artikel_angebot` (
-  `id_rel` int(11) NOT NULL,
-  `id_artikel` int(11) DEFAULT NULL,
-  `id_angebot` int(11) DEFAULT NULL,
-  `anzahl` decimal(10,2) DEFAULT '0.00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -620,9 +617,9 @@ ALTER TABLE `angebote`
   ADD PRIMARY KEY (`id_angebot`);
 
 --
--- Indizes für die Tabelle `artikel`
+-- Indizes für die Tabelle `angebote_artikel`
 --
-ALTER TABLE `artikel`
+ALTER TABLE `angebote_artikel`
   ADD PRIMARY KEY (`id_art`);
 
 --
@@ -662,12 +659,6 @@ ALTER TABLE `rechnungen_eingang`
   ADD PRIMARY KEY (`id_rechnung`);
 
 --
--- Indizes für die Tabelle `rel_artikel_angebot`
---
-ALTER TABLE `rel_artikel_angebot`
-  ADD PRIMARY KEY (`id_rel`);
-
---
 -- AUTO_INCREMENT für exportierte Tabellen
 --
 
@@ -675,49 +666,43 @@ ALTER TABLE `rel_artikel_angebot`
 -- AUTO_INCREMENT für Tabelle `angebote`
 --
 ALTER TABLE `angebote`
-  MODIFY `id_angebot` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_angebot` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT für Tabelle `artikel`
+-- AUTO_INCREMENT für Tabelle `angebote_artikel`
 --
-ALTER TABLE `artikel`
-  MODIFY `id_art` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `angebote_artikel`
+  MODIFY `id_art` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `einheiten`
 --
 ALTER TABLE `einheiten`
-  MODIFY `id_einheit` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_einheit` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT für Tabelle `kontenrahmen`
 --
 ALTER TABLE `kontenrahmen`
-  MODIFY `id_konto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id_konto` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT für Tabelle `kunden`
 --
 ALTER TABLE `kunden`
-  MODIFY `kunde_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `kunde_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `rechnungen`
 --
 ALTER TABLE `rechnungen`
-  MODIFY `id_rechnung` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_rechnung` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `rechnungen_eingang`
 --
 ALTER TABLE `rechnungen_eingang`
-  MODIFY `id_rechnung` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT für Tabelle `rel_artikel_angebot`
---
-ALTER TABLE `rel_artikel_angebot`
-  MODIFY `id_rel` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_rechnung` int NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -14,8 +14,7 @@ session_start();
   <button class="dropbtn">Angebote</button>
   <div class="dropdown-content">
     <a href="<?=$_SESSION['root_path'];?>/config/einheiten.php">Einheiten konfig.</a>
-	  <a href="<?=$_SESSION['root_path'];?>/config/artikel.php">Artikel konfig.</a>
-	  <a href="<?=$_SESSION['root_path'];?>/angebote/angebote.php">Angebote</a>
+	 <a href="<?=$_SESSION['root_path'];?>/angebote/angebote.php">Angebote</a>
   </div>
 </div>
 <div class="dropdown">

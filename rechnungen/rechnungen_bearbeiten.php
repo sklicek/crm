@@ -37,6 +37,9 @@ if (isset($_POST['submit'])){
     $kunde_id=htmlspecialchars($_POST['kunde']);
     $brutto=htmlspecialchars($_POST['brutto']);
     $dat_bez=htmlspecialchars($_POST['dat_bez']);
+	if ($dat_bez==""){
+		$dat_bez=null;
+	}
     $kt_id=htmlspecialchars($_POST['konto']);
       
     if ($action=="n"){

@@ -23,6 +23,9 @@ Für die Verbindung der PDF-Dokumente mit der Datenbank, muss ein Unterverzeichn
 - firma / uploads / rechnungen
 - firma / uploads / rechnungen_eingang
 
+Die exportierten Angebote befinden sich im Unterverzeichnis 
+- firma / word_export
+
 Getestet mit folgenden Systemvoraussetzungen:
 - Apache 2.4 (Webserver)
 - PHP 7.2 (Erweiterung: mysqli)

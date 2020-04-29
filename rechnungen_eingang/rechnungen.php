@@ -64,9 +64,9 @@ $counter=0;
 $total=0;
 $sql="SELECT a.id_rechnung, a.rechnung_nr, a.rechnung_datum, a.leistung_datum, a.bruttowert, b.firma, a.datum_bezahlt, a.beschreibung, a.pdffile FROM rechnungen_eingang a LEFT JOIN kunden b on a.kunde_id=b.kunde_id";
 if ($_POST['id_konto']!="" && $_POST['id_konto']!=""){
-  $sql.=" WHERE a.id_konto = ".$_POST['id_konto']." AND year(a.datum_bezahlt) = ?";
+  $sql.=" WHERE a.id_konto = ".$_POST['id_konto']." AND year(a.rechnung_datum) = ?";
 } else {
-  $sql.=" WHERE year(a.datum_bezahlt) = ?";
+  $sql.=" WHERE year(a.rechnung_datum) = ?";
 }
 $sql.=" ORDER BY a.rechnung_datum DESC, a.rechnung_nr DESC";
 if ($stmt2 = $mysqli -> prepare($sql)) {
@@ -101,6 +101,7 @@ if ($stmt2 = $mysqli -> prepare($sql)) {
     <td>
 		<a class="btn" href="rechnungen_bearbeiten.php?id=<?=$id;?>&action=e">Bearbeiten</a>
 		<a class="btn" href="upload_file.php?id_rechnung=<?=$id;?>&nr=<?=$nr;?>">Dateianhang</a>
+		<a class="btn" href="rechnungen_bearbeiten.php?id=<?=$id;?>&action=cp">Kopieren</a>
 		<a class="btn" onclick="return confirm('Definitif löschen ?');" href="rechnungen_bearbeiten.php?id=<?=$id;?>&action=d">Löschen</a>
 	</td>
     </tr>

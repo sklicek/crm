@@ -67,7 +67,7 @@ if (isset($_POST['submit'])){
    $bezeichnung=htmlspecialchars($_POST['bezeichnung']);
    $id_einheit=$_POST['id_einheit'];
    $vkpreis_einheit=$_POST['vkpreis_einheit'];
-   $msg="TEST";
+   $msg="";
 	//if ($action==""){
 		if ($stmt2 = $mysqli -> prepare("INSERT INTO angebote_artikel (anzahl,bezeichnung,id_einheit, vkpreis_einheit,id_angebot) VALUES (?,?,?,?,?)")) {
             $stmt2 -> bind_param("dsidi",$anzahl,$bezeichnung,$id_einheit,$vkpreis_einheit,$id_angebot);
